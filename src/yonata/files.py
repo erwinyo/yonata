@@ -24,3 +24,4 @@ def list_files_inside_a_folder(folder_path: str, extension=None) -> list[str]:
             if extension is None or filename.endswith(extension):
                 files.append(os.path.join(root, filename))
     return files
+
