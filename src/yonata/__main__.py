@@ -1,14 +1,16 @@
-import requests
+import os
+import sys
 
-from .printers import say_greeting
-
-def get_google():
-    response = requests.get('https://www.google.com')
-    print(f"Status Code: {response.status_code}")
+from .files import list_files_inside_a_folder
 
 def main():
-    get_google()
-    say_greeting()
+    print("Hello from the main function!")
+
+    PATH = "/home/user/yonata/example_folder"
+    files = list_files_inside_a_folder(PATH)
+    for file in files:
+        print(file)
+
 
 if __name__ == "__main__":
     main()
