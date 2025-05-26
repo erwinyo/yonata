@@ -23,7 +23,10 @@ def benchmark_from_image_folder(
     #     raise ValueError(
     #         f"Number of files in folder ({len(list_of_files)}) does not match the number of expected outputs ({len(expected_outputs)})."
     #     )
-
+    print(f"Found {len(list_of_files)} files in folder: {folder_path}")
+    for idx, file_path in enumerate(list_of_files):
+        print(f"[{idx}] {file_path}")
+    
     results = []
     for file_path in list_of_files: 
         start = time.time()
@@ -31,7 +34,7 @@ def benchmark_from_image_folder(
         result = instance.process(image)
         end = time.time()
 
-        time_taken = (end - start) * 1000  # Convert to milliseconds
+        time_taken = end - start 
         results.append({
             "file_path": file_path,
             "result": result,
