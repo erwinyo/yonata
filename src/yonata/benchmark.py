@@ -9,39 +9,81 @@ from deepdiff import DeepDiff
 
 # Local package
 from .files import list_files_inside_a_folder
-from .vlm import do_multimodal_with_openai
-from .variables import count_elements
-from .dantic import MultimodalOpenAIOutput
 from .constant import IMAGE_EXTENSIONS
+from .database import (
+    insert_to_postgres
+)
+from .utils import (
+    generate_unique_id
+)
+
+def initiate_write_to_database(
+    type: str
+) -> str:
+    task_id = generate_unique_id()
+    insert_to_postgres(
+        table_name="task",
+        data={
+            "task_id": task_id,
+            "type": type,
+            "status": "open"
+        }
+    )
+    return task_id
+
+def store_benchmark_result_to_database(
+    result: list,
+    task_id: str,
+) -> None:
+    # Input additional mandatory fields
+    process_id = generate_unique_id()
+    result["process_id"] = process_id
+    result["task_id"] = task_id
+
+    insert_to_postgres(
+        table_name="process",
+        data=result
+    )
 
 def benchmark_from_image_folder(
     instance: object,
     folder_path: str,
-):
+) -> list:
+    task_id = initiate_write_to_database(type="image_folder")
     list_of_files = list_files_inside_a_folder(folder_path, extensions=IMAGE_EXTENSIONS)
-    # if len(list_of_files) != len(expected_outputs):
-    #     raise ValueError(
-    #         f"Number of files in folder ({len(list_of_files)}) does not match the number of expected outputs ({len(expected_outputs)})."
-    #     )
+    
+    # Print the number of files found and their paths
     print(f"Found {len(list_of_files)} files in folder: {folder_path}")
     for idx, file_path in enumerate(list_of_files):
-        print(f"[{idx}] {file_path}")
+        print(f"[green][{idx}][/green] {file_path}")
     
-    results = []
     for file_path in list_of_files: 
-        start = time.time()
         image = cv2.imread(file_path)
-        result = instance.process(image)
-        end = time.time()
-
-        time_taken = end - start 
-        results.append({
-            "file_path": file_path,
-            "result": result,
-            "time_taken": time_taken,
-        })
-    return results
+        try:
+            start = time.time()
+            result = instance.process(image)
+            end = time.time()
+            time_taken = end - start 
+            result = {
+                "file_path": file_path,
+                "result": result,
+                "status": "success",
+                "time_taken": time_taken,
+            }
+        except Exception as e:
+            print(f"[red]Error processing file:[/red] {file_path}: {e}")
+            result = {
+                "file_path": file_path,
+                "result": None,
+                "status": "failed",
+                "time_taken": None,
+            }
     
+        store_benchmark_result_to_database(
+            results=result,
+            task_id=task_id
+        )
+
 
 
 

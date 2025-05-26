@@ -1,0 +1,19 @@
+DATABASE SCHEMA
+
+task
+task_id (PRIMARY)           TEXT
+type                        TEXT                (e.g. image_folder, ...)
+status                      TEXT                (e.g. open, on_progress, closed)
+file_paths                  TEXT[]
+completed_processes         TEXT[]
+failed_processes            TEXT[]
+last_updated                TIMESTAMP
+
+
+process
+process_id (PRIMARY)        TEXT
+file_path                   TEXT
+result                      JSONB
+status                      TEXT                (e.g. success, failed)
+time_taken                  DOUBLE PRECISION
+task_id (FOREIGN)           TEXT

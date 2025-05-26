@@ -22,5 +22,5 @@ def list_files_inside_a_folder(folder_path: str, extensions=None) -> list[str]:
         for filename in filenames:
             if extensions is None or any(filename.endswith(ext) for ext in extensions):
                 files.append(os.path.join(root, filename))
-    return files
+    return sorted(files)
 

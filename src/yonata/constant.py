@@ -1,4 +1,3 @@
-
 # Bytes constants
 KB_1 = 1 * 1024
 MB_1 = 1 * 1024 * 1024
