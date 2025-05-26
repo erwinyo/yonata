@@ -1,2 +1,7 @@
+# Folders
 /dist
-/local
+/local/example_folder
+/local/image
+
+# Files
+.env

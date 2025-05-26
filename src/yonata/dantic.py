@@ -1,0 +1,13 @@
+from pydantic import BaseModel
+from typing import List
+
+class Baseline(BaseModel):
+    metadata: dict
+
+class MultimodalOpenAIOutput(Baseline):
+    response: dict
+    element_count: int
+    diff: dict
+    diff_count: int
+    diff_percentage: float
+    

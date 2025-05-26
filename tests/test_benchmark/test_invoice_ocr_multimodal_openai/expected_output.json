@@ -1,0 +1,382 @@
+{
+    "im1.jpg": {
+        "store": "PERTAMINA",
+        "items": [
+            {
+                "product_code": "",
+                "product_name": "PERTAMAX",
+                "quantity": 27.77,
+                "price": 9000
+            }
+        ],
+        "subtotal": 250000,
+        "tax": 0,
+        "discount": 0,
+        "total": 250000,
+        "paid": 250000,
+        "change": 0
+    },
+    "im2.jpeg": {
+        "store": "COTO DG. SIRUA",
+        "items": [
+            {
+                "product_code": "",
+                "product_name": "COTO",
+                "quantity": 1,
+                "price": 15000
+            },
+            {
+                "product_code": "",
+                "product_name": "TEH MANIS",
+                "quantity": 1,
+                "price": 5000
+            },
+            {
+                "product_code": "",
+                "product_name": "KETUPAT",
+                "quantity": 1,
+                "price": 1000
+            }
+        ],
+        "subtotal": 21000,
+        "tax": 0,
+        "discount": 0,
+        "total": 21000,
+        "paid": 21000,
+        "change": 0
+    },
+    "im3.jpg": {
+        "store": "Berkaa Shop",
+        "items": [
+            {
+                "product_code": "",
+                "product_name": "Nasi Ayam Geprek",
+                "quantity": 1,
+                "price": 12000
+            },
+            {
+                "product_code": "",
+                "product_name": "Nasi Ayam Kremes",
+                "quantity": 1,
+                "price": 15000
+            },
+            {
+                "product_code": "",
+                "product_name": "Nasi Goreng Spesial",
+                "quantity": 1,
+                "price": 20000
+            }
+        ],
+        "subtotal": 47000,
+        "tax": 0,
+        "discount": 0,
+        "total": 47000,
+        "paid": 47000,
+        "change": 0
+    },
+    "im4.jpg": {
+        "store": "ALFAMART GENTONG NGAWI",
+        "items": [
+            {
+                "product_code": "",
+                "product_name": "WALLS PP SHK150",
+                "quantity": 2,
+                "price": 9500
+            },
+            {
+                "product_code": "",
+                "product_name": "TANGO CHO 125G",
+                "quantity": 2,
+                "price": 9200
+            },
+            {
+                "product_code": "",
+                "product_name": "CHITATO SP PGG6",
+                "quantity": 1,
+                "price": 11500
+            },
+            {
+                "product_code": "",
+                "product_name": "CHITATO AYM BMB",
+                "quantity": 1,
+                "price": 11500
+            },
+            {
+                "product_code": "",
+                "product_name": "FRENCHFRIES 68G",
+                "quantity": 1,
+                "price": 7000
+            },
+            {
+                "product_code": "",
+                "product_name": "KP BRANDING L",
+                "quantity": 1,
+                "price": 1
+            },
+            {
+                "product_code": "",
+                "product_name": "STAMP VKB WB",
+                "quantity": 2,
+                "price": 1
+            },
+            {
+                "product_code": "",
+                "product_name": "YOU C APL 140ML",
+                "quantity": 1,
+                "price": 6900
+            }
+        ],
+        "subtotal": 74303,
+        "tax": 6745,
+        "discount": 1903,
+        "total": 72400,
+        "paid": 72400,
+        "change": 0
+    },
+    "im5.jpeg": {
+        "store": "ALFA TOWER LT.12, ALAM SUTERA, TANGERANG",
+        "items": [
+            {
+                "product_code": "",
+                "product_name": "FF SKM PTH 490G",
+                "quantity": 2,
+                "price": 13700
+            },
+            {
+                "product_code": "",
+                "product_name": "DJARUM SH BLK16",
+                "quantity": 1,
+                "price": 19200
+            },
+            {
+                "product_code": "",
+                "product_name": "KP BRANDING L",
+                "quantity": 1,
+                "price": 200
+            },
+            {
+                "product_code": "",
+                "product_name": "INDOMIE GPRK85G",
+                "quantity": 2,
+                "price": 2600
+            }
+        ],
+        "subtotal": 52000,
+        "tax": 2982,
+        "discount": 50000,
+        "total": 2000,
+        "paid": 2000,
+        "change": 0
+    },
+    "im6.jpg": {
+        "store": "Cafe Bee",
+        "items": [
+            {
+                "product_code": "",
+                "product_name": "Bakso",
+                "quantity": 2,
+                "price": 12000
+            },
+            {
+                "product_code": "",
+                "product_name": "Cah Kangkung",
+                "quantity": 3,
+                "price": 7500
+            },
+            {
+                "product_code": "",
+                "product_name": "Cap Jay",
+                "quantity": 3,
+                "price": 17000
+            },
+            {
+                "product_code": "",
+                "product_name": "Cumi Goreng Tepung Gurih",
+                "quantity": 3,
+                "price": 25000
+            }
+        ],
+        "subtotal": 172500,
+        "tax": 18975,
+        "discount": 0,
+        "total": 191475,
+        "paid": 200000,
+        "change": 8525
+    },
+    "im7.jpg": {
+        "store": "DUPLIKAT",
+        "items": [
+            {
+                "product_code": "",
+                "product_name": "KP BRD L 0.020",
+                "quantity": 1,
+                "price": 500
+            },
+            {
+                "product_code": "",
+                "product_name": "WLS PL STR90ML",
+                "quantity": 1,
+                "price": 5000
+            },
+            {
+                "product_code": "",
+                "product_name": "SASA SNT 200ML",
+                "quantity": 1,
+                "price": 10000
+            },
+            {
+                "product_code": "",
+                "product_name": "MD EGG DROP110G",
+                "quantity": 1,
+                "price": 9100
+            }
+        ],
+        "subtotal": 24600,
+        "tax": 2438,
+        "discount": 0,
+        "total": 24600,
+        "paid": 24600,
+        "change": 0
+    },
+    "im8.jpg": {
+        "store": "",
+        "items": [
+            {
+                "product_code": "",
+                "product_name": "Tea",
+                "quantity": 3,
+                "price": 4.50
+            },
+            {
+                "product_code": "",
+                "product_name": "Juice",
+                "quantity": 1,
+                "price": 3.00
+            },
+            {
+                "product_code": "",
+                "product_name": "Spicy Dyna Soy Cone",
+                "quantity": 1,
+                "price": 3.49
+            },
+            {
+                "product_code": "",
+                "product_name": "Banihana Roll",
+                "quantity": 1,
+                "price": 11.00
+            },
+            {
+                "product_code": "",
+                "product_name": "Magic Steak",
+                "quantity": 1,
+                "price": 6.50
+            },
+            {
+                "product_code": "",
+                "product_name": "Red Plate",
+                "quantity": 1,
+                "price": 3.45
+            },
+            {
+                "product_code": "",
+                "product_name": "Yellow Plate",
+                "quantity": 3,
+                "price": 11.85
+            },
+            {
+                "product_code": "",
+                "product_name": "LOVE from KINJO",
+                "quantity": 50,
+                "price": 0
+            }
+        ],
+        "subtotal": 43.79,
+        "tax": 2.19,
+        "discount": 0,
+        "total": 45.98,
+        "paid": 0,
+        "change": 0
+    },
+    "im9.jpeg": {
+        "store": "ALFAMIDI ADISUMARMO",
+        "items": [
+            {
+                "product_code": "",
+                "product_name": "BAGUS LEM AJAIB",
+                "quantity": 2,
+                "price": 19100
+            }
+        ],
+        "subtotal": 38200,
+        "tax": 3350,
+        "discount": 8400,
+        "total": 29800,
+        "paid": 100000,
+        "change": 71000
+    },
+    "im10.JPG": {
+        "store": "RM SEDERHANA",
+        "items": [
+            {
+                "product_code": "",
+                "product_name": "NASI PUTIH",
+                "quantity": 3,
+                "price": 7000
+            },
+            {
+                "product_code": "",
+                "product_name": "SAMBAL TERI TEM",
+                "quantity": 2,
+                "price": 10000
+            },
+            {
+                "product_code": "",
+                "product_name": "SAYUR NANGKA",
+                "quantity": 1,
+                "price": 7000
+            },
+            {
+                "product_code": "",
+                "product_name": "RENDANG DAGING",
+                "quantity": 1,
+                "price": 14500
+            },
+            {
+                "product_code": "",
+                "product_name": "LALAP D SINGKON",
+                "quantity": 1,
+                "price": 6000
+            },
+            {
+                "product_code": "",
+                "product_name": "SAYUR D SINGKON",
+                "quantity": 1,
+                "price": 7000
+            },
+            {
+                "product_code": "",
+                "product_name": "SAMBAL IJO",
+                "quantity": 1,
+                "price": 7000
+            },
+            {
+                "product_code": "",
+                "product_name": "SAMBAL GRG ATI",
+                "quantity": 1,
+                "price": 12000
+            },
+            {
+                "product_code": "",
+                "product_name": "SAMBAL TERONG",
+                "quantity": 1,
+                "price": 9000
+            }
+        ],
+        "subtotal": 103500,
+        "tax": 10,
+        "discount": 0,
+        "total": 113850,
+        "paid": 200000,
+        "change": -86150
+    }
+}

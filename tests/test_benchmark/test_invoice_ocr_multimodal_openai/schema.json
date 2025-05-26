@@ -1,0 +1,76 @@
+{
+    "type": "object",
+    "properties": {
+        "store": {
+            "type": "string",
+            "description": "The store name on receipt."
+        },
+        "items": {
+            "type": "array",
+            "description": "Receipt items",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "product_code": {
+                        "type": "string",
+                        "description": "Code of the product."
+                    },
+                    "product_name": {
+                        "type": "string",
+                        "description": "Name of the product."
+                    },
+                    "quantity": {
+                        "type": "number",
+                        "description": "Quantity of the product."
+                    },
+                    "price": {
+                        "type": "number",
+                        "description": "Price of the product."
+                    }
+                },
+                "required": [
+                    "product_code",
+                    "product_name",
+                    "quantity",
+                    "price"
+                ],
+                "additionalProperties": false
+            }
+        },
+        "subtotal": {
+            "type": "number",
+            "description": "The subtotal (contain total purchase only the product, exlude tax, voucher, and discount) of the purchase."
+        },
+        "tax": {
+            "type": "number",
+            "description": "The total tax of the purchase."
+        },
+        "discount": {
+            "type": "number",
+            "description": "The total discount (or voucher) of the purchase."
+        },
+        "total": {
+            "type": "number",
+            "description": "The total purchase cost."
+        },
+        "paid": {
+            "type": "number",
+            "description": "The amount of buyer paid."
+        },
+        "change": {
+            "type": "number",
+            "description": "The amount of buyer change."
+        }
+    },
+    "required": [
+        "store",
+        "items",
+        "subtotal",
+        "tax",
+        "discount",
+        "total",
+        "paid",
+        "change"
+    ],
+    "additionalProperties": false
+}

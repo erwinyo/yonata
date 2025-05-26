@@ -1,0 +1,13 @@
+You will be given an image of receipt.
+Your task is to do OCR and convert it into a structured JSON dictionary.
+Please output the content in a form of this dictionary:
+"store": The store name on receipt. Usually on top of the document. Ussualy above the address of the store.
+"items": Create a list of dictionary where each dictionary contains receipt items. Include product code (e.g. 8995102101804, 8809618369545), product name, quantity, and price (only for one product).
+"subtotal": The subtotal (contain total purchase only the product, exlude tax, voucher, and discount) of the purchase. Usually at the end of listed items.
+"tax": The total tax of the purchase. Usually at the end of listed items.
+"discount": The total discount (or voucher) of the purchase. Usually at the end of listed items.
+"total": The total purchase cost. Usually at the end of listed items.
+"paid": The amount of buyer paid. Ussualy below tax and discount or voucher section.
+"change": The amount of buyer change. Ussually below the paid section.
+If there is a data that has no value, please return null value not 'null' string.
+The task you have to do needs high accuracy, so please be precise in ocr, understanding, and parsing the text. If you are not sure about the value, do not hallucinate and generate random value.

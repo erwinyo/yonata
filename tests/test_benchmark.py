@@ -1,17 +1,20 @@
+# Built-in/Generic Imports
 import os
-import sys
 import json
-import base64
 from pathlib import Path
 
+# Third-party package
 from openai import OpenAI
+from deepdiff import DeepDiff
 
-from .files import list_files_inside_a_folder
-from .benchmark import multimodal_openai
+# Local package
+from yonata.benchmark import multimodal_openai
 
+import base64
 
-def main():
-    ROOT_PATH = "/home/user/yonata/tests/test_benchmark/test_invoice_ocr_multimodal_openai"
+def test_invoice_ocr_multimodal_openai():
+    ROOT_PATH = "tests/test_benchmark/test_invoice_ocr_multimodal_openai"
+    # Define the parameters for the benchmark
     model = OpenAI(
         api_key=os.getenv("OPENAI_API_KEY")
     )
@@ -41,10 +44,12 @@ def main():
         top_p=top_p,
         expected_output=expected_output
     )
+    json_response = json.loads(response.output_text)
 
-    print("Response")
-    print(response)
+    diff = DeepDiff(
+        json_response,
+        expected_output,
+        significant_digits=2
+    )
 
-
-if __name__ == "__main__":
-    main()
+    assert diff == {}, f"Response does not match expected output. Differences: {diff}"
