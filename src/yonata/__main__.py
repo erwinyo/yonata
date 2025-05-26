@@ -1,50 +1,18 @@
 import os
 import sys
-import json
-import base64
-from pathlib import Path
+sys.path.insert(1, os.path.abspath(os.path.join(os.path.dirname(__file__), './src')))
 
-from openai import OpenAI
+from rich import print
 
-from .files import list_files_inside_a_folder
-from .benchmark import multimodal_openai
-
+from yonata.files import list_files_inside_a_folder
+from yonata.constant import IMAGE_EXTENSIONS
 
 def main():
-    ROOT_PATH = "/home/user/yonata/tests/test_benchmark/test_invoice_ocr_multimodal_openai"
-    model = OpenAI(
-        api_key=os.getenv("OPENAI_API_KEY")
+    folder_path = "/home/user/yonata/local/image"
+    list_of_files = list_files_inside_a_folder(
+        folder_path, extensions=IMAGE_EXTENSIONS
     )
-    model_name="gpt-4o-mini"    
-    temperature = 0.0
-    prompt = Path(f"{ROOT_PATH}/prompt.txt").read_text()
-    system_prompt = "You are a helpful assistant that extracts information from invoices."
-    schema = json.load(Path(f"{ROOT_PATH}/schema.json").open())
-
-    top_p = 1.0     # no filtering (same as not using nucleus sampling).
-
-    # Prepare the base64 image
-    filename = "im3.jpg"
-    with open(f"{ROOT_PATH}/{filename}", 'rb') as image_file:
-        base64_image = base64.b64encode(image_file.read()).decode('utf-8')
-    expected_output = json.load(Path(f"{ROOT_PATH}/expected_output.json").open())[filename]
-
-    # Call the benchmark function
-    response = multimodal_openai(
-        base64_image=base64_image,
-        model=model,
-        model_name=model_name,
-        temperature=temperature,
-        system_prompt=system_prompt,
-        prompt=prompt,
-        schema=schema,
-        top_p=top_p,
-        expected_output=expected_output
-    )
-
-    print("Response")
-    print(response)
-
+    print(list_of_files)
 
 if __name__ == "__main__":
     main()

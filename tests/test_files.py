@@ -1,6 +1,6 @@
 from yonata.files import list_files_inside_a_folder
 
-FOLDER_PATH = "/home/user/yonata/local/example_folder"    
+FOLDER_PATH = "/home/user/yonata/local/image"    
 
 def test_list_files_inside_a_folder_no_extension():
     results = list_files_inside_a_folder(
@@ -23,8 +23,6 @@ def test_list_files_inside_a_folder_multiple_extension():
         folder_path=FOLDER_PATH,
         extensions=[".jpg", ".png", ".pdf", ".ris"]
     )
-
-    print(results)
 
     for result in results:
         assert result.endswith(".jpg") or result.endswith(".png") or result.endswith(".pdf") or result.endswith(".ris")

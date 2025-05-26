@@ -13,7 +13,7 @@ GB_2 = 2 * 1024 * 1024 * 1024
 
 # Image file extensions
 IMAGE_EXTENSIONS = [
-    ".jpg", ".jpeg" ".png", ".bmp", 
+    ".jpg", ".jpeg", ".png", ".bmp", 
     ".tiff", ".tif", ".webp", ".ppm",
     ".pgm", ".pbm", ".hdr", ".pic", ".jp2"
 ]
