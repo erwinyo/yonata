@@ -31,5 +31,4 @@ def do_multimodal_with_openai(base64_image, system_prompt, prompt, schema, model
         top_p=top_p,
     )
 
-    json_response = json.loads(response.output_text)
-    return json_response
+    return response
