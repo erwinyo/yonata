@@ -4,6 +4,7 @@ import json
 
 # Third-party package
 import cv2
+from rich import print
 from openai import OpenAI
 from deepdiff import DeepDiff
 
@@ -80,7 +81,7 @@ def benchmark_from_image_folder(
             }
     
         store_benchmark_result_to_database(
-            results=result,
+            result=result,
             task_id=task_id
         )
 
