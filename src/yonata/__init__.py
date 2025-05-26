@@ -8,5 +8,5 @@ from .files import (
     list_files_inside_a_folder
 )
 from .benchmark import (
-    multimodal_openai
+    benchmark_from_image_folder
 )
