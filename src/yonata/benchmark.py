@@ -15,7 +15,7 @@ from .files import _list_files_inside_a_folder
 from .constant import IMAGE_EXTENSIONS
 from .database import _insert_to_postgres, _update_to_postgres
 from .object_storage import _upload_image_bytes_to_minio
-from .config import logger, minio_client, MINIO_BUCKET
+from .config import logger, _minio_client, MINIO_BUCKET
 from .utils import _generate_unique_id
 
 
@@ -92,8 +92,10 @@ def benchmark_from_image_folder(
     instance: object,
     folder_path: str,
 ) -> None:
+    # First time regstering the task
     task_id = __store_task_to_database(type=TaskType.IMAGE_FOLDER.value)
 
+    # List all files to see how many files are there
     list_of_files = _list_files_inside_a_folder(
         folder_path, extensions=IMAGE_EXTENSIONS
     )
@@ -114,7 +116,7 @@ def benchmark_from_image_folder(
             # Upload image to MinIO
             file_path_minio = f"{MINIO_BUCKET}/{task_id}/{filename}"
             _upload_image_bytes_to_minio(
-                minio_client=minio_client,
+                minio_client=_minio_client,
                 minio_path=file_path_minio,
                 data=image_bytes,
             )
@@ -149,7 +151,6 @@ def benchmark_from_image_folder(
             success_processes.append(process_id)
         else:
             failed_processes.append(process_id)
-
         __update_task(
             task_id=task_id,
             completed_processes=success_processes,
