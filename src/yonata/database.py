@@ -114,17 +114,22 @@ def _update_to_postgres(
     # Extract columns and values for SET clause
     set_clause = ", ".join([f"{key} = %s" for key in data.keys()])
     set_values = [
-        Json(value) if isinstance(value, (dict, list)) else value
-        for value in data.values()
+        Json(value) if isinstance(value, dict) else value for value in data.values()
     ]
 
     # Extract columns and values for WHERE clause
     connector = " OR " if use_or else " AND "
-    where_clause = connector.join([f"{key} = %s" for key in condition.keys()])
-    where_values = [
-        Json(value) if isinstance(value, (dict, list)) else value
-        for value in condition.values()
-    ]
+    where_clauses = []
+    where_values = []
+    for key, value in condition.items():
+        if isinstance(value, list):
+            placeholders = ", ".join(["%s"] * len(value))
+            where_clauses.append(f"{key} IN ({placeholders})")
+            where_values.extend([Json(v) if isinstance(v, dict) else v for v in value])
+        else:
+            where_clauses.append(f"{key} = %s")
+            where_values.append(Json(value) if isinstance(value, dict) else value)
+    where_clause = connector.join(where_clauses)
 
     # Combine values for parameterized query
     values = set_values + where_values
