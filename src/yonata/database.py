@@ -96,16 +96,20 @@ def _insert_to_postgres(table_name: str, data: dict) -> None:
     columns = ", ".join(data.keys())
     placeholders = ", ".join(["%s"] * len(data))
     values = [
-        Json(value) if isinstance(value, (dict, list)) else value
-        for value in data.values()
+        Json(value) if isinstance(value, dict) else value for value in data.values()
     ]
+
+    # Check if any value is a list (array type)
+    inserted_array = any(isinstance(value, list) for value in data.values())
 
     # Construct parameterized query
     query = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders})"
     _postgres_cursor = __query_to_postgres(query, values)
     _postgres_connection.commit()
 
-    logger.info(f"Data inserted into {table_name} successfully.")
+    logger.info(
+        f"Data inserted into {table_name} successfully. Inserted array: {inserted_array}"
+    )
 
 
 def _update_to_postgres(

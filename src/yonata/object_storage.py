@@ -43,7 +43,7 @@ def _upload_image_bytes_to_minio(
             bucket_name=bucket_name,
             object_name=object_name,
             data=data,
-            length=len(data),
+            length=len(data.getvalue()),
             content_type="image/jpeg",
         )
 
