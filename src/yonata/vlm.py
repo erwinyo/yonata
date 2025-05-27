@@ -1,6 +1,9 @@
 import json
 
-def do_multimodal_with_openai(base64_image, system_prompt, prompt, schema, model, model_name, temperature, top_p) -> dict:
+
+def _do_multimodal_with_openai(
+    base64_image, system_prompt, prompt, schema, model, model_name, temperature, top_p
+) -> dict:
     response = model.responses.create(
         model=model_name,
         input=[
@@ -8,16 +11,13 @@ def do_multimodal_with_openai(base64_image, system_prompt, prompt, schema, model
             {
                 "role": "user",
                 "content": [
-                    { 
-                        "type": "input_text", 
-                        "text": prompt 
-                    },
+                    {"type": "input_text", "text": prompt},
                     {
                         "type": "input_image",
                         "image_url": f"data:image/jpeg;base64,{base64_image}",
                     },
                 ],
-            }
+            },
         ],
         text={
             "format": {

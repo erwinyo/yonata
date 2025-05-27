@@ -1,6 +1,7 @@
 import os
 
-def list_files_inside_a_folder(folder_path: str, extensions=None) -> list[str]:
+
+def _list_files_inside_a_folder(folder_path: str, extensions=None) -> list[str]:
     """
     List all files inside a folder with specific extensions.
 
@@ -23,4 +24,3 @@ def list_files_inside_a_folder(folder_path: str, extensions=None) -> list[str]:
             if extensions is None or any(filename.endswith(ext) for ext in extensions):
                 files.append(os.path.join(root, filename))
     return sorted(files)
-

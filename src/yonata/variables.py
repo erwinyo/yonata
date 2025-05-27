@@ -1,11 +1,11 @@
-def count_elements(obj):
+def _count_elements(obj):
     count = 0
     if isinstance(obj, dict):
         for value in obj.values():
             count += 1  # Count the current key-value pair
-            count += count_elements(value)
+            count += _count_elements(value)
     elif isinstance(obj, list):
         for item in obj:
             count += 1  # Count the list item itself
-            count += count_elements(item)
+            count += _count_elements(item)
     return count

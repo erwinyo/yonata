@@ -1,6 +1,8 @@
 # Built-in package
+import os
 import time
 import json
+from enum import Enum
 
 # Third-party package
 import cv2
@@ -9,92 +11,153 @@ from openai import OpenAI
 from deepdiff import DeepDiff
 
 # Local package
-from .files import list_files_inside_a_folder
+from .files import _list_files_inside_a_folder
 from .constant import IMAGE_EXTENSIONS
-from .database import (
-    insert_to_postgres
-)
-from .utils import (
-    generate_unique_id
-)
+from .database import _insert_to_postgres, _update_to_postgres
+from .object_storage import _upload_image_bytes_to_minio
+from .config import logger, minio_client, MINIO_BUCKET
+from .utils import _generate_unique_id
 
-def initiate_write_to_database(
-    type: str
-) -> str:
-    task_id = generate_unique_id()
-    insert_to_postgres(
+
+class TaskType(str, Enum):
+    IMAGE_FOLDER = "image_folder"
+    VIDEO_FOLDER = "video_folder"
+    AUDIO_FOLDER = "audio_folder"
+    TEXT_FOLDER = "text_folder"
+    MULTIMODAL_OPENAI = "multimodal_openai"
+    MULTIMODAL_HF = "multimodal_hf"
+    MULTIMODAL_CUSTOM = "multimodal_custom"
+
+
+class TaskStatus(str, Enum):
+    OPEN = "open"
+    ON_PROGRESS = "on_progress"
+    CLOSED = "closed"
+
+
+class ProcessStatus(str, Enum):
+    SUCCESS = "success"
+    FAILED = "failed"
+
+
+def __store_task_to_database(type: str) -> str:
+    task_id = _generate_unique_id()
+    _insert_to_postgres(
         table_name="task",
         data={
             "task_id": task_id,
             "type": type,
-            "status": "open"
-        }
+            "status": TaskStatus.OPEN.value,
+        },
     )
     return task_id
 
-def store_benchmark_result_to_database(
+
+def __store_benchmark_result_to_database(
     result: list,
     task_id: str,
-) -> None:
+) -> str:
     # Input additional mandatory fields
-    process_id = generate_unique_id()
+    process_id = _generate_unique_id()
     result["process_id"] = process_id
     result["task_id"] = task_id
 
-    insert_to_postgres(
-        table_name="process",
-        data=result
-    )
+    _insert_to_postgres(table_name="process", data=result)
+    return process_id
+
+
+def __update_task(
+    task_id: str,
+    status: str = None,
+    completed_processes: list[str] = None,
+    failed_processes: list[str] = None,
+) -> None:
+    data = {}
+    if status is not None:
+        data["status"] = status
+    if completed_processes is not None:
+        data["completed_processes"] = completed_processes
+    if failed_processes is not None:
+        data["failed_processes"] = failed_processes
+
+    if data:
+        _update_to_postgres(
+            table_name="task",
+            data=data,
+            where={"task_id": task_id},
+        )
+
 
 def benchmark_from_image_folder(
     instance: object,
     folder_path: str,
-) -> list:
-    task_id = initiate_write_to_database(type="image_folder")
-    list_of_files = list_files_inside_a_folder(folder_path, extensions=IMAGE_EXTENSIONS)
-    
-    # Print the number of files found and their paths
+) -> None:
+    task_id = __store_task_to_database(type=TaskType.IMAGE_FOLDER.value)
+
+    list_of_files = _list_files_inside_a_folder(
+        folder_path, extensions=IMAGE_EXTENSIONS
+    )
     print(f"Found {len(list_of_files)} files in folder: {folder_path}")
     for idx, file_path in enumerate(list_of_files):
         print(f"[green][{idx}][/green] {file_path}")
-    
-    for file_path in list_of_files: 
+
+    success_processes = []
+    failed_processes = []
+    __update_task(task_id=task_id, status=TaskStatus.ON_PROGRESS.value)
+    for file_path in list_of_files:
+        filename = os.path.basename(file_path)
         image = cv2.imread(file_path)
+        image_bytes = cv2.imencode(".jpg", image)[1].tobytes()
+
+        it_success = False
         try:
+            # Upload image to MinIO
+            file_path_minio = f"{MINIO_BUCKET}/{task_id}/{filename}"
+            _upload_image_bytes_to_minio(
+                minio_client=minio_client,
+                minio_path=file_path_minio,
+                data=image_bytes,
+            )
+
+            # Inferencing
             start = time.time()
-            result = instance.process(image)
+            result = instance.process(image_bytes)
             end = time.time()
-            time_taken = end - start 
+            time_taken = end - start
             result = {
-                "file_path": file_path,
+                "file_path": file_path_minio,
                 "result": result,
-                "status": "success",
+                "status": ProcessStatus.SUCCESS.value,
                 "time_taken": time_taken,
             }
+            it_success = True
         except Exception as e:
             print(f"[red]Error processing file:[/red] {file_path}: {e}")
             result = {
-                "file_path": file_path,
+                "file_path": None,
                 "result": None,
-                "status": "failed",
+                "status": ProcessStatus.FAILED.value,
                 "time_taken": None,
             }
-    
-        store_benchmark_result_to_database(
-            result=result,
-            task_id=task_id
+            it_success = False
+
+        # Store & Update the task processes
+        process_id = __store_benchmark_result_to_database(
+            result=result, task_id=task_id
+        )
+        if it_success:
+            success_processes.append(process_id)
+        else:
+            failed_processes.append(process_id)
+
+        __update_task(
+            task_id=task_id,
+            completed_processes=success_processes,
+            failed_processes=failed_processes,
         )
 
-
-
-
-    
-
-
-
-
-
-
+    # Update task status to closed
+    __update_task(task_id=task_id, status=TaskStatus.ON_PROGRESS.value)
 
 
 # def multimodal_openai(
@@ -119,8 +182,8 @@ def benchmark_from_image_folder(
 #         top_p=top_p
 #     )
 #     response = json.loads(response.output_text)
-    
-    
+
+
 #     element_count = count_elements(response)
 #     diff = DeepDiff(
 #         expected_output,

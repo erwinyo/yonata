@@ -2,32 +2,31 @@ import uuid
 from datetime import datetime
 
 from psycopg2.extras import Json
-from .config import (
-    logger,
-    postgres_connection,
-    postgres_cursor
-)
+from .config import logger, _postgres_connection, _postgress_cursor
 
-def query_to_postgres(query: str, values = None) -> None:
+
+def __query_to_postgres(query: str, values=None) -> None:
     logger.trace(f"Query: {query}")
     logger.trace(f"Query values: {values}")
-    
+
     if values is None:
-        postgres_cursor.execute(query)
+        _postgress_cursor.execute(query)
     else:
-        postgres_cursor.execute(query, values)
+        _postgress_cursor.execute(query, values)
 
-    return postgres_cursor
+    return _postgress_cursor
 
-def check_postgres_connection() -> bool:
+
+def _check_postgres_connection() -> bool:
     try:
-        query_to_postgres("SELECT 1")
+        __query_to_postgres("SELECT 1")
         return True
     except Exception as e:
         logger.error(f"PostgreSQL connection error: {e}")
         return False
 
-def is_table_exist(table_name: str) -> bool:
+
+def _is_table_exist(table_name: str) -> bool:
     query = f"""
         SELECT EXISTS (
             SELECT 1
@@ -35,28 +34,30 @@ def is_table_exist(table_name: str) -> bool:
             WHERE table_name = '{table_name}'
         );
     """
-    postgres_cursor = query_to_postgres(query)
-    is_exist = bool(postgres_cursor.fetchone()[0])
+    _postgress_cursor = __query_to_postgres(query)
+    is_exist = bool(_postgress_cursor.fetchone()[0])
 
     logger.trace(f"Table {table_name} exists: {is_exist}")
     return is_exist
 
 
-def get_table_columns(table_name: str) -> list:
+def _get_table_columns(table_name: str) -> list:
     query = f"""
         SELECT column_name 
         FROM information_schema.columns 
         WHERE table_name = '{table_name}'
         ORDER BY ordinal_position;  
     """
-    postgres_cursor = query_to_postgres(query)
-    results = postgres_cursor.fetchall()
+    _postgress_cursor = __query_to_postgres(query)
+    results = _postgress_cursor.fetchall()
     logger.trace(f"Query results: {results}")
 
     return [row[0] for row in results]
 
 
-def get_table_data(table_name: str, condition: dict = None, use_or: bool = False) -> list:
+def _get_table_data(
+    table_name: str, condition: dict = None, use_or: bool = False
+) -> list:
     if condition:
         connector = " OR " if use_or else " AND "
         where_clauses = []
@@ -65,28 +66,28 @@ def get_table_data(table_name: str, condition: dict = None, use_or: bool = False
             if isinstance(value, list):
                 placeholders = ", ".join(["%s"] * len(value))
                 where_clauses.append(f"{key} IN ({placeholders})")
-                values.extend([
-                    Json(v) if isinstance(v, (dict, list)) else v
-                    for v in value
-                ])
+                values.extend(
+                    [Json(v) if isinstance(v, (dict, list)) else v for v in value]
+                )
             else:
                 where_clauses.append(f"{key} = %s")
                 values.append(Json(value) if isinstance(value, (dict, list)) else value)
         where_clause = connector.join(where_clauses)
         query = f"SELECT * FROM {table_name} WHERE {where_clause};"
-        postgres_cursor = query_to_postgres(query, values)
+        _postgress_cursor = __query_to_postgres(query, values)
     else:
         query = f"SELECT * FROM {table_name};"
-        postgres_cursor = query_to_postgres(query)
-    results = postgres_cursor.fetchall()
+        _postgress_cursor = __query_to_postgres(query)
+    results = _postgress_cursor.fetchall()
     logger.trace(f"Query results: {results}")
 
-    columns = get_table_columns(table_name)
+    columns = _get_table_columns(table_name)
     data = [dict(zip(columns, row)) for row in results]
 
     return data
 
-def insert_to_postgres(table_name: str, data: dict) -> None:
+
+def _insert_to_postgres(table_name: str, data: dict) -> None:
     # Extract columns and values
     columns = ", ".join(data.keys())
     placeholders = ", ".join(["%s"] * len(data))
@@ -97,12 +98,15 @@ def insert_to_postgres(table_name: str, data: dict) -> None:
 
     # Construct parameterized query
     query = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders})"
-    postgres_cursor = query_to_postgres(query, values)
-    postgres_connection.commit()
+    _postgress_cursor = __query_to_postgres(query, values)
+    _postgres_connection.commit()
 
     logger.info(f"Data inserted into {table_name} successfully.")
 
-def update_to_postgres(table_name: str, data: dict, condition: dict, use_or: bool = False) -> None:
+
+def _update_to_postgres(
+    table_name: str, data: dict, condition: dict, use_or: bool = False
+) -> None:
     # Extract columns and values for SET clause
     set_clause = ", ".join([f"{key} = %s" for key in data.keys()])
     set_values = [
@@ -124,12 +128,13 @@ def update_to_postgres(table_name: str, data: dict, condition: dict, use_or: boo
     # Construct parameterized query
     query = f"UPDATE {table_name} SET {set_clause} WHERE {where_clause}"
 
-    postgres_cursor = query_to_postgres(query, values)
-    postgres_connection.commit()
+    _postgress_cursor = __query_to_postgres(query, values)
+    _postgres_connection.commit()
 
     logger.info(f"Data updated in {table_name} successfully.")
 
-def is_data_exist(table_name: str, condition: dict, use_or: bool = False) -> bool:
+
+def _is_data_exist(table_name: str, condition: dict, use_or: bool = False) -> bool:
     connector = " OR " if use_or else " AND "
     where_clauses = []
     values = []
@@ -137,10 +142,9 @@ def is_data_exist(table_name: str, condition: dict, use_or: bool = False) -> boo
         if isinstance(value, list):
             placeholders = ", ".join(["%s"] * len(value))
             where_clauses.append(f"{key} IN ({placeholders})")
-            values.extend([
-                Json(v) if isinstance(v, (dict, list)) else v
-                for v in value
-            ])
+            values.extend(
+                [Json(v) if isinstance(v, (dict, list)) else v for v in value]
+            )
         else:
             where_clauses.append(f"{key} = %s")
             values.append(Json(value) if isinstance(value, (dict, list)) else value)
@@ -152,10 +156,8 @@ def is_data_exist(table_name: str, condition: dict, use_or: bool = False) -> boo
             WHERE {where_clause}
         );
     """
-    postgres_cursor = query_to_postgres(query, values)
-    is_exist = bool(postgres_cursor.fetchone()[0])
+    _postgress_cursor = __query_to_postgres(query, values)
+    is_exist = bool(_postgress_cursor.fetchone()[0])
 
     logger.trace(f"Data exists in {table_name}: {is_exist}")
     return is_exist
-
-
