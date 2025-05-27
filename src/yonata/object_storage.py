@@ -6,7 +6,7 @@ from minio import Minio
 
 # Local imports
 from .config import logger
-from .utils import decode_url
+from .utils import _decode_url
 
 
 def __parse_minio_path(path: str):
@@ -24,7 +24,7 @@ def _generate_presigned_url_minio(
         url = minio_client.presigned_get_object(
             bucket_name=bucket_name, object_name=object_name, expires=expiration
         )
-        decoded_url = decode_url(url)
+        decoded_url = _decode_url(url)
         logger.success(f"Presigned URL generated for {object_name} in {bucket_name}.")
         return decoded_url
     except Exception as e:
