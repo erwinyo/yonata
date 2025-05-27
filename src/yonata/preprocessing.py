@@ -1,4 +1,4 @@
-# Built-in/Generic Imports
+# Built-in imports
 import os
 import io
 import sys
@@ -6,12 +6,12 @@ import math
 import base64
 from pathlib import Path
 
-# Third-party package
+# Third-party imports
 import cv2
 import numpy as np
 from PIL import Image
 
-# Local package
+# Local imports
 from .constant import *
 
 

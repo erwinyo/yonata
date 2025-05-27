@@ -1,3 +1,11 @@
+# Built-in imports
+import os
+
+# Third-party imports
+
+# Local imports
+
+
 # Bytes constants
 KB_1 = 1 * 1024
 MB_1 = 1 * 1024 * 1024
@@ -12,8 +20,17 @@ GB_2 = 2 * 1024 * 1024 * 1024
 
 # Image file extensions
 IMAGE_EXTENSIONS = [
-    ".jpg", ".jpeg", ".png", ".bmp", 
-    ".tiff", ".tif", ".webp", ".ppm",
-    ".pgm", ".pbm", ".hdr", ".pic", ".jp2"
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".bmp",
+    ".tiff",
+    ".tif",
+    ".webp",
+    ".ppm",
+    ".pgm",
+    ".pbm",
+    ".hdr",
+    ".pic",
+    ".jp2",
 ]
-

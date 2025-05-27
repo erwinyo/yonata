@@ -1,6 +1,11 @@
+# Built-in imports
 import random
 import string
 import urllib.parse
+
+# Third-party imports
+
+# Local imports
 
 
 def _generate_unique_id() -> str:

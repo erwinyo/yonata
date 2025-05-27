@@ -1,4 +1,9 @@
+# Built-in imports
 import json
+
+# Third-party imports
+
+# Local imports
 
 
 def _do_multimodal_with_openai(

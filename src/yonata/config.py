@@ -1,12 +1,12 @@
-# Builtin package
+# Built-in imports
 import sys
 from datetime import datetime
 
-# Third-party package
+# Third-party imports
 import psycopg2
 from minio import Minio
 
-# Local package
+# Local imports
 from loguru import logger
 
 # ------------------------------- [LOGGER] -------------------------------

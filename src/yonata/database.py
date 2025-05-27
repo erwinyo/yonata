@@ -1,8 +1,12 @@
+# Built-in imports
 import uuid
 from datetime import datetime
 
+# Third-party imports
 from psycopg2.extras import Json
-from .config import logger, _postgres_connection, _postgress_cursor
+from .config import logger, _postgres_connection, _postgres_cursor
+
+# Local imports
 
 
 def __query_to_postgres(query: str, values=None) -> None:
@@ -10,11 +14,11 @@ def __query_to_postgres(query: str, values=None) -> None:
     logger.trace(f"Query values: {values}")
 
     if values is None:
-        _postgress_cursor.execute(query)
+        _postgres_cursor.execute(query)
     else:
-        _postgress_cursor.execute(query, values)
+        _postgres_cursor.execute(query, values)
 
-    return _postgress_cursor
+    return _postgres_cursor
 
 
 def _check_postgres_connection() -> bool:
@@ -34,8 +38,8 @@ def _is_table_exist(table_name: str) -> bool:
             WHERE table_name = '{table_name}'
         );
     """
-    _postgress_cursor = __query_to_postgres(query)
-    is_exist = bool(_postgress_cursor.fetchone()[0])
+    _postgres_cursor = __query_to_postgres(query)
+    is_exist = bool(_postgres_cursor.fetchone()[0])
 
     logger.trace(f"Table {table_name} exists: {is_exist}")
     return is_exist
@@ -48,8 +52,8 @@ def _get_table_columns(table_name: str) -> list:
         WHERE table_name = '{table_name}'
         ORDER BY ordinal_position;  
     """
-    _postgress_cursor = __query_to_postgres(query)
-    results = _postgress_cursor.fetchall()
+    _postgres_cursor = __query_to_postgres(query)
+    results = _postgres_cursor.fetchall()
     logger.trace(f"Query results: {results}")
 
     return [row[0] for row in results]
@@ -74,11 +78,11 @@ def _get_table_data(
                 values.append(Json(value) if isinstance(value, (dict, list)) else value)
         where_clause = connector.join(where_clauses)
         query = f"SELECT * FROM {table_name} WHERE {where_clause};"
-        _postgress_cursor = __query_to_postgres(query, values)
+        _postgres_cursor = __query_to_postgres(query, values)
     else:
         query = f"SELECT * FROM {table_name};"
-        _postgress_cursor = __query_to_postgres(query)
-    results = _postgress_cursor.fetchall()
+        _postgres_cursor = __query_to_postgres(query)
+    results = _postgres_cursor.fetchall()
     logger.trace(f"Query results: {results}")
 
     columns = _get_table_columns(table_name)
@@ -98,7 +102,7 @@ def _insert_to_postgres(table_name: str, data: dict) -> None:
 
     # Construct parameterized query
     query = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders})"
-    _postgress_cursor = __query_to_postgres(query, values)
+    _postgres_cursor = __query_to_postgres(query, values)
     _postgres_connection.commit()
 
     logger.info(f"Data inserted into {table_name} successfully.")
@@ -128,7 +132,7 @@ def _update_to_postgres(
     # Construct parameterized query
     query = f"UPDATE {table_name} SET {set_clause} WHERE {where_clause}"
 
-    _postgress_cursor = __query_to_postgres(query, values)
+    _postgres_cursor = __query_to_postgres(query, values)
     _postgres_connection.commit()
 
     logger.info(f"Data updated in {table_name} successfully.")
@@ -156,8 +160,8 @@ def _is_data_exist(table_name: str, condition: dict, use_or: bool = False) -> bo
             WHERE {where_clause}
         );
     """
-    _postgress_cursor = __query_to_postgres(query, values)
-    is_exist = bool(_postgress_cursor.fetchone()[0])
+    _postgres_cursor = __query_to_postgres(query, values)
+    is_exist = bool(_postgres_cursor.fetchone()[0])
 
     logger.trace(f"Data exists in {table_name}: {is_exist}")
     return is_exist

@@ -1,4 +1,9 @@
+# Built-in imports
 import os
+
+# Third-party imports
+
+# Local imports
 
 
 def _list_files_inside_a_folder(folder_path: str, extensions=None) -> list[str]:

@@ -1,16 +1,16 @@
-# Built-in package
+# Built-in imports
 import os
 import time
 import json
 from enum import Enum
 
-# Third-party package
+# Third-party imports
 import cv2
 from rich import print
 from openai import OpenAI
 from deepdiff import DeepDiff
 
-# Local package
+# Local imports
 from .files import _list_files_inside_a_folder
 from .constant import IMAGE_EXTENSIONS
 from .database import _insert_to_postgres, _update_to_postgres
