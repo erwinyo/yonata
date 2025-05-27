@@ -116,14 +116,12 @@ def benchmark_from_image_folder(
             # Upload image to MinIO
             file_path_minio = f"{MINIO_BUCKET}/{task_id}/{filename}"
             _upload_image_bytes_to_minio(
-                minio_client=_minio_client,
-                minio_path=file_path_minio,
-                data=image_bytes,
+                minio_client=_minio_client, minio_path=file_path_minio, data=image_bytes
             )
 
             # Inferencing
             start = time.time()
-            result = instance.process(image_bytes)
+            result = instance.process(image)
             end = time.time()
             time_taken = end - start
             result = {
