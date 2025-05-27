@@ -16,7 +16,7 @@ from .constant import IMAGE_EXTENSIONS
 from .database import _insert_to_postgres, _update_to_postgres
 from .object_storage import _upload_image_bytes_to_minio
 from .config import logger, _minio_client, MINIO_BUCKET
-from .utils import _generate_unique_id, _image_ndarray_to_bytes
+from .utils import _generate_unique_id, _image_ndarray_to_bytes_io
 
 
 class TaskType(str, Enum):
@@ -109,7 +109,7 @@ def benchmark_from_image_folder(
     for file_path in list_of_files:
         filename = os.path.basename(file_path)
         image = cv2.imread(file_path)
-        image_bytes = _image_ndarray_to_bytes(image)
+        image_bytes = _image_ndarray_to_bytes_io(image)
 
         it_success = False
         try:
