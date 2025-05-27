@@ -29,7 +29,7 @@ logger.add(
 )
 
 # ------------------------------- [DATABASE] -------------------------------
-POSTGRES_HOST = "localhost"
+POSTGRES_HOST = "127.0.0.1"
 POSTGRES_PORT = "5432"
 POSTGRES_DBNAME = "postgres"
 POSTGRES_USER = "postgres"
@@ -44,7 +44,7 @@ _postgres_connection = psycopg2.connect(
 _postgres_cursor = _postgres_connection.cursor()
 
 # ------------------------------- [MINIO] -------------------------------
-MINIO_HOST = "localhost"
+MINIO_HOST = "127.0.0.1"
 MINIO_PORT = "9000"
 MINIO_USER = "minioadmin"
 MINIO_PASSWORD = "minioadmin"
