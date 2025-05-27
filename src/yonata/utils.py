@@ -11,8 +11,10 @@ from PIL import Image
 # Local imports
 
 
-def _generate_unique_id() -> str:
-    random_string = "".join(random.choices(string.ascii_letters + string.digits, k=16))
+def _generate_unique_id(length=16) -> str:
+    random_string = "".join(
+        random.choices(string.ascii_letters + string.digits, k=length)
+    )
     return random_string
 
 

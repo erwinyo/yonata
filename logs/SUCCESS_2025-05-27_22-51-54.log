@@ -1,0 +1,9 @@
+[2025-05-27 22:51:54:3482] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:50] [_upload_image_bytes_to_minio] Successfully uploaded qov6mrur/xecdNZeAN3IhsYdp.jpg to yonata.
+[2025-05-27 22:51:56:3126] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:50] [_upload_image_bytes_to_minio] Successfully uploaded qov6mrur/qWkMiTbhY4h968Fj.jpeg to yonata.
+[2025-05-27 22:51:56:3357] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:50] [_upload_image_bytes_to_minio] Successfully uploaded qov6mrur/AKM8xP0yx2bZfjHL.jpg to yonata.
+[2025-05-27 22:51:56:4052] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:50] [_upload_image_bytes_to_minio] Successfully uploaded qov6mrur/pZkZ2J9wseUEuEQa.jpg to yonata.
+[2025-05-27 22:51:56:4419] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:50] [_upload_image_bytes_to_minio] Successfully uploaded qov6mrur/Nt7kJxS0B1J3nZLM.jpeg to yonata.
+[2025-05-27 22:51:56:5591] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:50] [_upload_image_bytes_to_minio] Successfully uploaded qov6mrur/ZrMUe3NuRckUo1HY.jpg to yonata.
+[2025-05-27 22:51:56:6104] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:50] [_upload_image_bytes_to_minio] Successfully uploaded qov6mrur/nDjCl9NcFozDSZ2G.jpg to yonata.
+[2025-05-27 22:51:56:6452] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:50] [_upload_image_bytes_to_minio] Successfully uploaded qov6mrur/mUx45h85M1SDNnyP.jpg to yonata.
+[2025-05-27 22:51:56:6977] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:50] [_upload_image_bytes_to_minio] Successfully uploaded qov6mrur/fueLVxGFXvMDu4on.jpeg to yonata.

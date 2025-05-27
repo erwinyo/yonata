@@ -19,6 +19,11 @@ from .config import logger, _minio_client, MINIO_BUCKET
 from .utils import _generate_unique_id, _image_ndarray_to_bytes_io
 
 
+class TableName(str, Enum):
+    TASK = "task"
+    PROCESS = "process"
+
+
 class TaskType(str, Enum):
     IMAGE_FOLDER = "image_folder"
     VIDEO_FOLDER = "video_folder"
@@ -40,8 +45,20 @@ class ProcessStatus(str, Enum):
     FAILED = "failed"
 
 
+def __generate_task_id() -> str:
+    return _generate_unique_id(length=8)
+
+
+def __generate_process_id() -> str:
+    return _generate_unique_id(length=16)
+
+
+def __generate_unique_filename() -> str:
+    return _generate_unique_id(length=16)
+
+
 def __store_task_to_database(type: str) -> str:
-    task_id = _generate_unique_id()
+    task_id = __generate_task_id()
     _insert_to_postgres(
         table_name="task",
         data={
@@ -58,11 +75,11 @@ def __store_benchmark_result_to_database(
     task_id: str,
 ) -> str:
     # Input additional mandatory fields
-    process_id = _generate_unique_id()
+    process_id = __generate_process_id()
     result["process_id"] = process_id
     result["task_id"] = task_id
 
-    _insert_to_postgres(table_name="process", data=result)
+    _insert_to_postgres(table_name=TableName.PROCESS.value, data=result)
     return process_id
 
 
@@ -82,7 +99,7 @@ def __update_task(
 
     if data:
         _update_to_postgres(
-            table_name="task",
+            table_name=TableName.TASK.value,
             data=data,
             condition={"task_id": task_id},
         )
@@ -108,25 +125,28 @@ def benchmark_from_image_folder(
     __update_task(task_id=task_id, status=TaskStatus.ON_PROGRESS.value)
     for file_path in list_of_files:
         filename = os.path.basename(file_path)
+        file_ext = os.path.splitext(filename)[1]
+
         image = cv2.imread(file_path)
         image_bytes = _image_ndarray_to_bytes_io(image)
 
         it_success = False
         try:
             # Upload image to MinIO
-            file_path_minio = f"{MINIO_BUCKET}/{task_id}/{filename}"
+            unique_filename = __generate_unique_filename() + file_ext
+            file_path_minio = f"{MINIO_BUCKET}/{task_id}/{unique_filename}"
             _upload_image_bytes_to_minio(
                 minio_client=_minio_client, minio_path=file_path_minio, data=image_bytes
             )
 
             # Inferencing
             start = time.time()
-            result = instance.process(image)
+            instance_result = instance.process(image)
             end = time.time()
             time_taken = end - start
             result = {
                 "file_path": file_path_minio,
-                "result": result,
+                "result": instance_result,
                 "status": ProcessStatus.SUCCESS.value,
                 "time_taken": time_taken,
             }
