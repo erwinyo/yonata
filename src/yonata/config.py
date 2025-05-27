@@ -54,4 +54,5 @@ _minio_client = Minio(
     f"{MINIO_HOST}:{MINIO_PORT}",
     access_key=MINIO_USER,
     secret_key=MINIO_PASSWORD,
+    secure=MINIO_SECURE,
 )
