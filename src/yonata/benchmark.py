@@ -84,7 +84,7 @@ def __update_task(
         _update_to_postgres(
             table_name="task",
             data=data,
-            where={"task_id": task_id},
+            condition={"task_id": task_id},
         )
 
 
