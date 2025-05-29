@@ -20,5 +20,9 @@ def main():
     print(list_of_files)
 
 
+def init():
+    pass
+
+
 if __name__ == "__main__":
     main()

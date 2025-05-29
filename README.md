@@ -40,7 +40,6 @@ class YourClassName:
     config: dict = field(default_factory=dict)
 
     _model: Model = field(init=False, repr=False)
-
     def __post_init__(self) -> None:
         pass
 

@@ -1,0 +1,11 @@
+[2025-05-29 15:01:18:7910] [SUCCESS] [/home/user/yonata/src/yonata/core.py:55] [__post_init__] PostgreSQL connection successful
+[2025-05-29 15:01:18:7914] [SUCCESS] [/home/user/yonata/src/yonata/core.py:68] [__post_init__] MinIO connection successful
+[2025-05-29 15:01:18:8639] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:53] [_upload_image_bytes_to_minio] Successfully uploaded CCHsRB7k/PF1bPJOXHGiWuhMV.jpg to yonata.
+[2025-05-29 15:01:21:2526] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:53] [_upload_image_bytes_to_minio] Successfully uploaded CCHsRB7k/KWeOaaEDTsdKbrB7.jpeg to yonata.
+[2025-05-29 15:01:21:2855] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:53] [_upload_image_bytes_to_minio] Successfully uploaded CCHsRB7k/LouQwE5Fr3sPsB1c.jpg to yonata.
+[2025-05-29 15:01:21:3461] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:53] [_upload_image_bytes_to_minio] Successfully uploaded CCHsRB7k/b2eFfxsrOSI6Skf8.jpg to yonata.
+[2025-05-29 15:01:21:3706] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:53] [_upload_image_bytes_to_minio] Successfully uploaded CCHsRB7k/C0b7sK12vRGzAQTg.jpeg to yonata.
+[2025-05-29 15:01:21:4294] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:53] [_upload_image_bytes_to_minio] Successfully uploaded CCHsRB7k/NwVi3aGMCjb5ItEM.jpg to yonata.
+[2025-05-29 15:01:21:4529] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:53] [_upload_image_bytes_to_minio] Successfully uploaded CCHsRB7k/S0tajxTGD2Zr0da2.jpg to yonata.
+[2025-05-29 15:01:21:4812] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:53] [_upload_image_bytes_to_minio] Successfully uploaded CCHsRB7k/HOQXpjitp3jF4Oeu.jpg to yonata.
+[2025-05-29 15:01:21:5338] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:53] [_upload_image_bytes_to_minio] Successfully uploaded CCHsRB7k/mTxrgX6Iv3ib2ILi.jpeg to yonata.

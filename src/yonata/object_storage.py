@@ -5,8 +5,15 @@ from datetime import timedelta
 from minio import Minio
 
 # Local imports
-from .config import logger
-from .utils import _decode_url
+from yonata.config import logger
+from yonata.utils import _decode_url
+
+__minio_client = None
+
+
+def set_client_object_storage(minio_client: Minio):
+    global __minio_client
+    __minio_client = minio_client
 
 
 def __parse_minio_path(path: str):
@@ -16,12 +23,10 @@ def __parse_minio_path(path: str):
     return bucket_name, object_name
 
 
-def _generate_presigned_url_minio(
-    minio_client: Minio, minio_path: str, expiration: int
-) -> str:
+def _generate_presigned_url_minio(minio_path: str, expiration: int) -> str:
     try:
         bucket_name, object_name = __parse_minio_path(minio_path)
-        url = minio_client.presigned_get_object(
+        url = __minio_client.presigned_get_object(
             bucket_name=bucket_name, object_name=object_name, expires=expiration
         )
         decoded_url = _decode_url(url)
@@ -34,12 +39,10 @@ def _generate_presigned_url_minio(
         return ""
 
 
-def _upload_image_bytes_to_minio(
-    minio_client: Minio, minio_path: str, data: bytes
-) -> None:
+def _upload_image_bytes_to_minio(minio_path: str, data: bytes) -> None:
     try:
         bucket_name, object_name = __parse_minio_path(minio_path)
-        minio_client.put_object(
+        __minio_client.put_object(
             bucket_name=bucket_name,
             object_name=object_name,
             data=data,

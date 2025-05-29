@@ -5,6 +5,8 @@ import os
 
 # Local imports
 
+# Minio constants
+MINIO_BUCKET = "yonata"
 
 # Bytes constants
 KB_1 = 1 * 1024

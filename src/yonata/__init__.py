@@ -1,1 +1,1 @@
-from .benchmark import benchmark_from_image_folder
+from yonata.core import Yonata

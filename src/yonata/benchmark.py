@@ -1,22 +1,19 @@
 # Built-in imports
 import os
 import time
-import json
 from enum import Enum
 
 # Third-party imports
 import cv2
 from rich import print
-from openai import OpenAI
-from deepdiff import DeepDiff
 
 # Local imports
-from .files import _list_files_inside_a_folder
-from .constant import IMAGE_EXTENSIONS
-from .database import _insert_to_postgres, _update_to_postgres
-from .object_storage import _upload_image_bytes_to_minio
-from .config import logger, _minio_client, MINIO_BUCKET
-from .utils import _generate_unique_id, _image_ndarray_to_bytes_io
+from yonata.config import logger
+from yonata.files import _list_files_inside_a_folder
+from yonata.constant import IMAGE_EXTENSIONS, MINIO_BUCKET
+from yonata.database import _insert_to_postgres, _update_to_postgres
+from yonata.object_storage import _upload_image_bytes_to_minio
+from yonata.utils import _generate_unique_id, _image_ndarray_to_bytes_io
 
 
 class TableName(str, Enum):
@@ -60,7 +57,7 @@ def __generate_unique_filename() -> str:
 def __store_task_to_database(type: str) -> str:
     task_id = __generate_task_id()
     _insert_to_postgres(
-        table_name="task",
+        table_name=TableName.TASK.value,
         data={
             "task_id": task_id,
             "type": type,
@@ -89,6 +86,7 @@ def __update_task(
     completed_processes: list[str] = None,
     failed_processes: list[str] = None,
 ) -> None:
+    # If not listed on input, set to None
     data = {}
     if status is not None:
         data["status"] = status
@@ -105,21 +103,19 @@ def __update_task(
         )
 
 
-def benchmark_from_image_folder(
+def _benchmark_from_image_folder(
     instance: object,
     folder_path: str,
+    extensions: list[str] = IMAGE_EXTENSIONS,
 ) -> None:
+
+    # Check if the folder exists
+    list_of_files = _list_files_inside_a_folder(folder_path, extensions=extensions)
+
     # First time regstering the task
     task_id = __store_task_to_database(type=TaskType.IMAGE_FOLDER.value)
 
-    # List all files to see how many files are there
-    list_of_files = _list_files_inside_a_folder(
-        folder_path, extensions=IMAGE_EXTENSIONS
-    )
-    print(f"Found {len(list_of_files)} files in folder: {folder_path}")
-    for idx, file_path in enumerate(list_of_files):
-        print(f"[green][{idx}][/green] {file_path}")
-
+    # Start benchmarking one file at a time
     success_processes = []
     failed_processes = []
     __update_task(task_id=task_id, status=TaskStatus.ON_PROGRESS.value)
@@ -132,18 +128,19 @@ def benchmark_from_image_folder(
 
         it_success = False
         try:
-            # Upload image to MinIO
-            unique_filename = __generate_unique_filename() + file_ext
-            file_path_minio = f"{MINIO_BUCKET}/{task_id}/{unique_filename}"
-            _upload_image_bytes_to_minio(
-                minio_client=_minio_client, minio_path=file_path_minio, data=image_bytes
+            # Upload image to MinIO using image bytes for faster upload
+            file_path_minio = (
+                f"{MINIO_BUCKET}/{task_id}/{__generate_unique_filename() + file_ext}"
             )
+            _upload_image_bytes_to_minio(minio_path=file_path_minio, data=image_bytes)
 
             # Inferencing
             start = time.time()
             instance_result = instance.process(image)
             end = time.time()
             time_taken = end - start
+
+            # Prepare the output result to store in the database
             result = {
                 "file_path": file_path_minio,
                 "result": instance_result,
@@ -152,7 +149,9 @@ def benchmark_from_image_folder(
             }
             it_success = True
         except Exception as e:
-            print(f"[red]Error processing file:[/red] {file_path}: {e}")
+            logger.error(f"[red]Error processing file:[/red] {file_path}: {e}")
+
+            # Prepare the output result to store in the database
             result = {
                 "file_path": None,
                 "result": None,
@@ -161,7 +160,7 @@ def benchmark_from_image_folder(
             }
             it_success = False
 
-        # Store & Update the task processes
+        # Store & Update the task success and failed processes
         process_id = __store_benchmark_result_to_database(
             result=result, task_id=task_id
         )
@@ -174,61 +173,6 @@ def benchmark_from_image_folder(
             completed_processes=success_processes,
             failed_processes=failed_processes,
         )
-
-    # Update task status to closed
-    __update_task(task_id=task_id, status=TaskStatus.ON_PROGRESS.value)
-
-
-# def multimodal_openai(
-#     base64_image: str,
-#     model: OpenAI,
-#     model_name: str,
-#     temperature: float,
-#     system_prompt: str,
-#     prompt: tuple,
-#     schema: dict,
-#     top_p: float,
-#     expected_output: dict
-# ) -> dict:
-#     response = do_multimodal_with_openai(
-#         base64_image=base64_image,
-#         system_prompt=system_prompt,
-#         prompt=prompt,
-#         schema=schema,
-#         model=model,
-#         model_name=model_name,
-#         temperature=temperature,
-#         top_p=top_p
-#     )
-#     response = json.loads(response.output_text)
-
-
-#     element_count = count_elements(response)
-#     diff = DeepDiff(
-#         expected_output,
-#         response,
-#         ignore_order=True,
-#         significant_digits=2
-#     )
-
-#     # Count the number of differences (e.g. {'type_changes': 1, 'values_changed': 3})
-#     res = {}
-#     for d in diff.keys():
-#         res[d] = len(diff[d].keys())
-#     diff_count = sum(res.values())
-
-#     diff_percentage = (diff_count / element_count) * 100
-
-#     return MultimodalOpenAIOutput(
-#         metadata={
-#             "model_name": model_name,
-#             "temperature": temperature,
-#             "top_p": top_p,
-#             "prompt": prompt
-#         },
-#         response=response,
-#         element_count=element_count,
-#         diff=diff,
-#         diff_count=diff_count,
-#         diff_percentage=diff_percentage
-#     )
+    else:
+        # Update task status to closed when all files already processed
+        __update_task(task_id=task_id, status=TaskStatus.CLOSED.value)

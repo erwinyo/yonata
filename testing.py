@@ -8,7 +8,6 @@ import supervision as sv
 from ultralytics import YOLO
 
 # Local imports
-from yonata.benchmark import benchmark_from_image_folder
 
 
 @dataclass(frozen=False, kw_only=False, match_args=False, slots=False)
@@ -38,8 +37,7 @@ class ObjectDetection:
                     "class_id": int(class_id),
                 }
             )
-        return_value = {"detections": results}
-        return return_value
+        return results
 
     def process(self, image, raw_result: bool = False):
         image = self.preprocess(image)
@@ -54,11 +52,36 @@ class ObjectDetection:
         return results
 
 
+from yonata import Yonata
+from yonata.core import PostgresConnection, MinioConnection
+
+
 def main():
     detector = ObjectDetection()
     folder_path = "/home/user/yonata/local/image"
 
-    benchmark_from_image_folder(instance=detector, folder_path=folder_path)
+    postgres_connection = PostgresConnection(
+        dbname="postgres",
+        user="postgres",
+        password="postgres",
+        host="127.0.0.1",
+        port="5432",
+    )
+    minio_connection = MinioConnection(
+        host="127.0.0.1",
+        port="9000",
+        access_key="minioadmin",
+        secret_key="minioadmin",
+        secure=False,
+    )
+
+    audit = Yonata(
+        postgres_connection=postgres_connection,
+        minio_connection=minio_connection,
+    )
+    audit.do_benchmark_from_image_folder(instance=detector, folder_path=folder_path)
+
+    # benchmark_from_image_folder(instance=detector, folder_path=folder_path)
 
 
 if __name__ == "__main__":
