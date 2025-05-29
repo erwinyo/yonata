@@ -117,9 +117,14 @@ def _get_table_data(
 
     # Get column names for the table
     columns = _get_table_columns(table_name)
-    # Convert each row to a dict mapping column names to values
-    data = [dict(zip(columns, row)) for row in results]
-
+    # Convert each row to a dict mapping column names to values + datetime format to string format
+    data = [
+        {
+            key: (value.isoformat() if isinstance(value, datetime) else value)
+            for key, value in zip(columns, row)
+        }
+        for row in results
+    ]
     return data
 
 

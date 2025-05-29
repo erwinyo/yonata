@@ -79,10 +79,12 @@ def main():
         postgres_connection=postgres_connection,
         minio_connection=minio_connection,
     )
-    audit.do_benchmark_from_image_folder(instance=detector, folder_path=folder_path)
+    print("Audit instance created successfully")
+    # audit.do_benchmark_from_image_folder(instance=detector, folder_path=folder_path)
 
     # benchmark_from_image_folder(instance=detector, folder_path=folder_path)
 
 
-if __name__ == "__main__":
+if __name__ in {"__main__", "__mp_main__"}:
     main()
+    # test_nicegui()

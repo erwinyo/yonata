@@ -11,6 +11,7 @@ from pydantic import BaseModel
 # Local imports
 from yonata.config import logger
 from yonata.constant import IMAGE_EXTENSIONS
+from yonata.gui import _run_gui
 from yonata.benchmark import _benchmark_from_image_folder
 from yonata.database import set_client_database
 from yonata.object_storage import set_client_object_storage
@@ -75,6 +76,9 @@ class Yonata:
             postgres_cursor=self._postgres_cursor,
         )
         set_client_object_storage(minio_client=self._minio_client)
+
+        # Run the GUI application
+        _run_gui()
 
     def do_benchmark_from_image_folder(
         self,

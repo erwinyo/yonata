@@ -1,0 +1,7 @@
+yonata
+======
+
+.. toctree::
+   :maxdepth: 4
+
+   yonata

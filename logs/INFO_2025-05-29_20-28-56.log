@@ -1,0 +1,2 @@
+[2025-05-29 20:28:57:2844] [SUCCESS] [/home/user/yonata/src/yonata/core.py:56] [__post_init__] PostgreSQL connection successful
+[2025-05-29 20:28:57:2848] [SUCCESS] [/home/user/yonata/src/yonata/core.py:69] [__post_init__] MinIO connection successful

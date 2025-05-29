@@ -1,0 +1,509 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>yonata package &mdash; Yonata 0.1.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=360bc84d"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Yonata
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">yonata package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-yonata.benchmark">yonata.benchmark module</a><ul>
+<li><a class="reference internal" href="#yonata.benchmark.ProcessStatus"><code class="docutils literal notranslate"><span class="pre">ProcessStatus</span></code></a><ul>
+<li><a class="reference internal" href="#yonata.benchmark.ProcessStatus.FAILED"><code class="docutils literal notranslate"><span class="pre">ProcessStatus.FAILED</span></code></a></li>
+<li><a class="reference internal" href="#yonata.benchmark.ProcessStatus.SUCCESS"><code class="docutils literal notranslate"><span class="pre">ProcessStatus.SUCCESS</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#yonata.benchmark.TableName"><code class="docutils literal notranslate"><span class="pre">TableName</span></code></a><ul>
+<li><a class="reference internal" href="#yonata.benchmark.TableName.PROCESS"><code class="docutils literal notranslate"><span class="pre">TableName.PROCESS</span></code></a></li>
+<li><a class="reference internal" href="#yonata.benchmark.TableName.TASK"><code class="docutils literal notranslate"><span class="pre">TableName.TASK</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#yonata.benchmark.TaskStatus"><code class="docutils literal notranslate"><span class="pre">TaskStatus</span></code></a><ul>
+<li><a class="reference internal" href="#yonata.benchmark.TaskStatus.CLOSED"><code class="docutils literal notranslate"><span class="pre">TaskStatus.CLOSED</span></code></a></li>
+<li><a class="reference internal" href="#yonata.benchmark.TaskStatus.ON_PROGRESS"><code class="docutils literal notranslate"><span class="pre">TaskStatus.ON_PROGRESS</span></code></a></li>
+<li><a class="reference internal" href="#yonata.benchmark.TaskStatus.OPEN"><code class="docutils literal notranslate"><span class="pre">TaskStatus.OPEN</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#yonata.benchmark.TaskType"><code class="docutils literal notranslate"><span class="pre">TaskType</span></code></a><ul>
+<li><a class="reference internal" href="#yonata.benchmark.TaskType.AUDIO_FOLDER"><code class="docutils literal notranslate"><span class="pre">TaskType.AUDIO_FOLDER</span></code></a></li>
+<li><a class="reference internal" href="#yonata.benchmark.TaskType.IMAGE_FOLDER"><code class="docutils literal notranslate"><span class="pre">TaskType.IMAGE_FOLDER</span></code></a></li>
+<li><a class="reference internal" href="#yonata.benchmark.TaskType.MULTIMODAL_CUSTOM"><code class="docutils literal notranslate"><span class="pre">TaskType.MULTIMODAL_CUSTOM</span></code></a></li>
+<li><a class="reference internal" href="#yonata.benchmark.TaskType.MULTIMODAL_HF"><code class="docutils literal notranslate"><span class="pre">TaskType.MULTIMODAL_HF</span></code></a></li>
+<li><a class="reference internal" href="#yonata.benchmark.TaskType.MULTIMODAL_OPENAI"><code class="docutils literal notranslate"><span class="pre">TaskType.MULTIMODAL_OPENAI</span></code></a></li>
+<li><a class="reference internal" href="#yonata.benchmark.TaskType.TEXT_FOLDER"><code class="docutils literal notranslate"><span class="pre">TaskType.TEXT_FOLDER</span></code></a></li>
+<li><a class="reference internal" href="#yonata.benchmark.TaskType.VIDEO_FOLDER"><code class="docutils literal notranslate"><span class="pre">TaskType.VIDEO_FOLDER</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-yonata.config">yonata.config module</a></li>
+<li><a class="reference internal" href="#module-yonata.constant">yonata.constant module</a></li>
+<li><a class="reference internal" href="#module-yonata.core">yonata.core module</a><ul>
+<li><a class="reference internal" href="#yonata.core.MinioConnection"><code class="docutils literal notranslate"><span class="pre">MinioConnection</span></code></a><ul>
+<li><a class="reference internal" href="#yonata.core.MinioConnection.access_key"><code class="docutils literal notranslate"><span class="pre">MinioConnection.access_key</span></code></a></li>
+<li><a class="reference internal" href="#yonata.core.MinioConnection.host"><code class="docutils literal notranslate"><span class="pre">MinioConnection.host</span></code></a></li>
+<li><a class="reference internal" href="#yonata.core.MinioConnection.model_config"><code class="docutils literal notranslate"><span class="pre">MinioConnection.model_config</span></code></a></li>
+<li><a class="reference internal" href="#yonata.core.MinioConnection.port"><code class="docutils literal notranslate"><span class="pre">MinioConnection.port</span></code></a></li>
+<li><a class="reference internal" href="#yonata.core.MinioConnection.secret_key"><code class="docutils literal notranslate"><span class="pre">MinioConnection.secret_key</span></code></a></li>
+<li><a class="reference internal" href="#yonata.core.MinioConnection.secure"><code class="docutils literal notranslate"><span class="pre">MinioConnection.secure</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#yonata.core.PostgresConnection"><code class="docutils literal notranslate"><span class="pre">PostgresConnection</span></code></a><ul>
+<li><a class="reference internal" href="#yonata.core.PostgresConnection.dbname"><code class="docutils literal notranslate"><span class="pre">PostgresConnection.dbname</span></code></a></li>
+<li><a class="reference internal" href="#yonata.core.PostgresConnection.host"><code class="docutils literal notranslate"><span class="pre">PostgresConnection.host</span></code></a></li>
+<li><a class="reference internal" href="#yonata.core.PostgresConnection.model_config"><code class="docutils literal notranslate"><span class="pre">PostgresConnection.model_config</span></code></a></li>
+<li><a class="reference internal" href="#yonata.core.PostgresConnection.password"><code class="docutils literal notranslate"><span class="pre">PostgresConnection.password</span></code></a></li>
+<li><a class="reference internal" href="#yonata.core.PostgresConnection.port"><code class="docutils literal notranslate"><span class="pre">PostgresConnection.port</span></code></a></li>
+<li><a class="reference internal" href="#yonata.core.PostgresConnection.user"><code class="docutils literal notranslate"><span class="pre">PostgresConnection.user</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#yonata.core.Yonata"><code class="docutils literal notranslate"><span class="pre">Yonata</span></code></a><ul>
+<li><a class="reference internal" href="#yonata.core.Yonata.do_benchmark_from_image_folder"><code class="docutils literal notranslate"><span class="pre">Yonata.do_benchmark_from_image_folder()</span></code></a></li>
+<li><a class="reference internal" href="#yonata.core.Yonata.minio_connection"><code class="docutils literal notranslate"><span class="pre">Yonata.minio_connection</span></code></a></li>
+<li><a class="reference internal" href="#yonata.core.Yonata.postgres_connection"><code class="docutils literal notranslate"><span class="pre">Yonata.postgres_connection</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-yonata.dantic">yonata.dantic module</a><ul>
+<li><a class="reference internal" href="#yonata.dantic.Baseline"><code class="docutils literal notranslate"><span class="pre">Baseline</span></code></a><ul>
+<li><a class="reference internal" href="#yonata.dantic.Baseline.metadata"><code class="docutils literal notranslate"><span class="pre">Baseline.metadata</span></code></a></li>
+<li><a class="reference internal" href="#yonata.dantic.Baseline.model_config"><code class="docutils literal notranslate"><span class="pre">Baseline.model_config</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#yonata.dantic.MultimodalOpenAIOutput"><code class="docutils literal notranslate"><span class="pre">MultimodalOpenAIOutput</span></code></a><ul>
+<li><a class="reference internal" href="#yonata.dantic.MultimodalOpenAIOutput.diff"><code class="docutils literal notranslate"><span class="pre">MultimodalOpenAIOutput.diff</span></code></a></li>
+<li><a class="reference internal" href="#yonata.dantic.MultimodalOpenAIOutput.diff_count"><code class="docutils literal notranslate"><span class="pre">MultimodalOpenAIOutput.diff_count</span></code></a></li>
+<li><a class="reference internal" href="#yonata.dantic.MultimodalOpenAIOutput.diff_percentage"><code class="docutils literal notranslate"><span class="pre">MultimodalOpenAIOutput.diff_percentage</span></code></a></li>
+<li><a class="reference internal" href="#yonata.dantic.MultimodalOpenAIOutput.element_count"><code class="docutils literal notranslate"><span class="pre">MultimodalOpenAIOutput.element_count</span></code></a></li>
+<li><a class="reference internal" href="#yonata.dantic.MultimodalOpenAIOutput.model_config"><code class="docutils literal notranslate"><span class="pre">MultimodalOpenAIOutput.model_config</span></code></a></li>
+<li><a class="reference internal" href="#yonata.dantic.MultimodalOpenAIOutput.response"><code class="docutils literal notranslate"><span class="pre">MultimodalOpenAIOutput.response</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-yonata.database">yonata.database module</a><ul>
+<li><a class="reference internal" href="#yonata.database.set_client_database"><code class="docutils literal notranslate"><span class="pre">set_client_database()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-yonata.files">yonata.files module</a></li>
+<li><a class="reference internal" href="#module-yonata.object_storage">yonata.object_storage module</a><ul>
+<li><a class="reference internal" href="#yonata.object_storage.set_client_object_storage"><code class="docutils literal notranslate"><span class="pre">set_client_object_storage()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-yonata.preprocessing">yonata.preprocessing module</a></li>
+<li><a class="reference internal" href="#module-yonata.utils">yonata.utils module</a></li>
+<li><a class="reference internal" href="#module-yonata.variables">yonata.variables module</a></li>
+<li><a class="reference internal" href="#module-yonata.vlm">yonata.vlm module</a></li>
+<li><a class="reference internal" href="#module-yonata">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Yonata</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">yonata package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/yonata.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="yonata-package">
+<h1>yonata package<a class="headerlink" href="#yonata-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-yonata.benchmark">
+<span id="yonata-benchmark-module"></span><h2>yonata.benchmark module<a class="headerlink" href="#module-yonata.benchmark" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="yonata.benchmark.ProcessStatus">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yonata.benchmark.</span></span><span class="sig-name descname"><span class="pre">ProcessStatus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/yonata/benchmark.html#ProcessStatus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#yonata.benchmark.ProcessStatus" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.benchmark.ProcessStatus.FAILED">
+<span class="sig-name descname"><span class="pre">FAILED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'failed'</span></em><a class="headerlink" href="#yonata.benchmark.ProcessStatus.FAILED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.benchmark.ProcessStatus.SUCCESS">
+<span class="sig-name descname"><span class="pre">SUCCESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'success'</span></em><a class="headerlink" href="#yonata.benchmark.ProcessStatus.SUCCESS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="yonata.benchmark.TableName">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yonata.benchmark.</span></span><span class="sig-name descname"><span class="pre">TableName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/yonata/benchmark.html#TableName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#yonata.benchmark.TableName" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.benchmark.TableName.PROCESS">
+<span class="sig-name descname"><span class="pre">PROCESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'process'</span></em><a class="headerlink" href="#yonata.benchmark.TableName.PROCESS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.benchmark.TableName.TASK">
+<span class="sig-name descname"><span class="pre">TASK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'task'</span></em><a class="headerlink" href="#yonata.benchmark.TableName.TASK" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="yonata.benchmark.TaskStatus">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yonata.benchmark.</span></span><span class="sig-name descname"><span class="pre">TaskStatus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/yonata/benchmark.html#TaskStatus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#yonata.benchmark.TaskStatus" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.benchmark.TaskStatus.CLOSED">
+<span class="sig-name descname"><span class="pre">CLOSED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'closed'</span></em><a class="headerlink" href="#yonata.benchmark.TaskStatus.CLOSED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.benchmark.TaskStatus.ON_PROGRESS">
+<span class="sig-name descname"><span class="pre">ON_PROGRESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'on_progress'</span></em><a class="headerlink" href="#yonata.benchmark.TaskStatus.ON_PROGRESS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.benchmark.TaskStatus.OPEN">
+<span class="sig-name descname"><span class="pre">OPEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'open'</span></em><a class="headerlink" href="#yonata.benchmark.TaskStatus.OPEN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="yonata.benchmark.TaskType">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yonata.benchmark.</span></span><span class="sig-name descname"><span class="pre">TaskType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/yonata/benchmark.html#TaskType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#yonata.benchmark.TaskType" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.benchmark.TaskType.AUDIO_FOLDER">
+<span class="sig-name descname"><span class="pre">AUDIO_FOLDER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'audio_folder'</span></em><a class="headerlink" href="#yonata.benchmark.TaskType.AUDIO_FOLDER" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.benchmark.TaskType.IMAGE_FOLDER">
+<span class="sig-name descname"><span class="pre">IMAGE_FOLDER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'image_folder'</span></em><a class="headerlink" href="#yonata.benchmark.TaskType.IMAGE_FOLDER" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.benchmark.TaskType.MULTIMODAL_CUSTOM">
+<span class="sig-name descname"><span class="pre">MULTIMODAL_CUSTOM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'multimodal_custom'</span></em><a class="headerlink" href="#yonata.benchmark.TaskType.MULTIMODAL_CUSTOM" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.benchmark.TaskType.MULTIMODAL_HF">
+<span class="sig-name descname"><span class="pre">MULTIMODAL_HF</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'multimodal_hf'</span></em><a class="headerlink" href="#yonata.benchmark.TaskType.MULTIMODAL_HF" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.benchmark.TaskType.MULTIMODAL_OPENAI">
+<span class="sig-name descname"><span class="pre">MULTIMODAL_OPENAI</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'multimodal_openai'</span></em><a class="headerlink" href="#yonata.benchmark.TaskType.MULTIMODAL_OPENAI" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.benchmark.TaskType.TEXT_FOLDER">
+<span class="sig-name descname"><span class="pre">TEXT_FOLDER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'text_folder'</span></em><a class="headerlink" href="#yonata.benchmark.TaskType.TEXT_FOLDER" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.benchmark.TaskType.VIDEO_FOLDER">
+<span class="sig-name descname"><span class="pre">VIDEO_FOLDER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'video_folder'</span></em><a class="headerlink" href="#yonata.benchmark.TaskType.VIDEO_FOLDER" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-yonata.config">
+<span id="yonata-config-module"></span><h2>yonata.config module<a class="headerlink" href="#module-yonata.config" title="Link to this heading"></a></h2>
+</section>
+<section id="module-yonata.constant">
+<span id="yonata-constant-module"></span><h2>yonata.constant module<a class="headerlink" href="#module-yonata.constant" title="Link to this heading"></a></h2>
+</section>
+<section id="module-yonata.core">
+<span id="yonata-core-module"></span><h2>yonata.core module<a class="headerlink" href="#module-yonata.core" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="yonata.core.MinioConnection">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yonata.core.</span></span><span class="sig-name descname"><span class="pre">MinioConnection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/yonata/core.html#MinioConnection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#yonata.core.MinioConnection" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.core.MinioConnection.access_key">
+<span class="sig-name descname"><span class="pre">access_key</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#yonata.core.MinioConnection.access_key" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.core.MinioConnection.host">
+<span class="sig-name descname"><span class="pre">host</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#yonata.core.MinioConnection.host" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.core.MinioConnection.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#yonata.core.MinioConnection.model_config" title="Link to this definition"></a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.core.MinioConnection.port">
+<span class="sig-name descname"><span class="pre">port</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#yonata.core.MinioConnection.port" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.core.MinioConnection.secret_key">
+<span class="sig-name descname"><span class="pre">secret_key</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#yonata.core.MinioConnection.secret_key" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.core.MinioConnection.secure">
+<span class="sig-name descname"><span class="pre">secure</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><a class="headerlink" href="#yonata.core.MinioConnection.secure" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="yonata.core.PostgresConnection">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yonata.core.</span></span><span class="sig-name descname"><span class="pre">PostgresConnection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/yonata/core.html#PostgresConnection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#yonata.core.PostgresConnection" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.core.PostgresConnection.dbname">
+<span class="sig-name descname"><span class="pre">dbname</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#yonata.core.PostgresConnection.dbname" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.core.PostgresConnection.host">
+<span class="sig-name descname"><span class="pre">host</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#yonata.core.PostgresConnection.host" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.core.PostgresConnection.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#yonata.core.PostgresConnection.model_config" title="Link to this definition"></a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.core.PostgresConnection.password">
+<span class="sig-name descname"><span class="pre">password</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#yonata.core.PostgresConnection.password" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.core.PostgresConnection.port">
+<span class="sig-name descname"><span class="pre">port</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#yonata.core.PostgresConnection.port" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.core.PostgresConnection.user">
+<span class="sig-name descname"><span class="pre">user</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#yonata.core.PostgresConnection.user" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="yonata.core.Yonata">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yonata.core.</span></span><span class="sig-name descname"><span class="pre">Yonata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">postgres_connection=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minio_connection=&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/yonata/core.html#Yonata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#yonata.core.Yonata" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="yonata.core.Yonata.do_benchmark_from_image_folder">
+<span class="sig-name descname"><span class="pre">do_benchmark_from_image_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extensions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['.jpg',</span> <span class="pre">'.jpeg',</span> <span class="pre">'.png',</span> <span class="pre">'.bmp',</span> <span class="pre">'.tiff',</span> <span class="pre">'.tif',</span> <span class="pre">'.webp',</span> <span class="pre">'.ppm',</span> <span class="pre">'.pgm',</span> <span class="pre">'.pbm',</span> <span class="pre">'.hdr',</span> <span class="pre">'.pic',</span> <span class="pre">'.jp2']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/yonata/core.html#Yonata.do_benchmark_from_image_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#yonata.core.Yonata.do_benchmark_from_image_folder" title="Link to this definition"></a></dt>
+<dd><p>Benchmark the given instance on all images inside a folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>instance</strong> (<em>object</em>) – instance of the class of application to benchmark.</p></li>
+<li><p><strong>folder_path</strong> (<em>str</em>) – path to the folder containing images to benchmark.</p></li>
+<li><p><strong>extensions</strong> (<em>list</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – list of image file extensions to benchmark.
+Defaults to all allowed extensions. Refer to yonata.constant.IMAGE_EXTENSIONS.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>If the folder has subfolders,
+and those subfolders have files that match the extension,
+then those files are also extracted.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.core.Yonata.minio_connection">
+<span class="sig-name descname"><span class="pre">minio_connection</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yonata.core.MinioConnection" title="yonata.core.MinioConnection"><code class="xref py py-class docutils literal notranslate"><span class="pre">MinioConnection</span></code></a></em><a class="headerlink" href="#yonata.core.Yonata.minio_connection" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.core.Yonata.postgres_connection">
+<span class="sig-name descname"><span class="pre">postgres_connection</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yonata.core.PostgresConnection" title="yonata.core.PostgresConnection"><code class="xref py py-class docutils literal notranslate"><span class="pre">PostgresConnection</span></code></a></em><a class="headerlink" href="#yonata.core.Yonata.postgres_connection" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-yonata.dantic">
+<span id="yonata-dantic-module"></span><h2>yonata.dantic module<a class="headerlink" href="#module-yonata.dantic" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="yonata.dantic.Baseline">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yonata.dantic.</span></span><span class="sig-name descname"><span class="pre">Baseline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/yonata/dantic.html#Baseline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#yonata.dantic.Baseline" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.dantic.Baseline.metadata">
+<span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></em><a class="headerlink" href="#yonata.dantic.Baseline.metadata" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.dantic.Baseline.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#yonata.dantic.Baseline.model_config" title="Link to this definition"></a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="yonata.dantic.MultimodalOpenAIOutput">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yonata.dantic.</span></span><span class="sig-name descname"><span class="pre">MultimodalOpenAIOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/yonata/dantic.html#MultimodalOpenAIOutput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#yonata.dantic.MultimodalOpenAIOutput" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#yonata.dantic.Baseline" title="yonata.dantic.Baseline"><code class="xref py py-class docutils literal notranslate"><span class="pre">Baseline</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.dantic.MultimodalOpenAIOutput.diff">
+<span class="sig-name descname"><span class="pre">diff</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></em><a class="headerlink" href="#yonata.dantic.MultimodalOpenAIOutput.diff" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.dantic.MultimodalOpenAIOutput.diff_count">
+<span class="sig-name descname"><span class="pre">diff_count</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></em><a class="headerlink" href="#yonata.dantic.MultimodalOpenAIOutput.diff_count" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.dantic.MultimodalOpenAIOutput.diff_percentage">
+<span class="sig-name descname"><span class="pre">diff_percentage</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></em><a class="headerlink" href="#yonata.dantic.MultimodalOpenAIOutput.diff_percentage" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.dantic.MultimodalOpenAIOutput.element_count">
+<span class="sig-name descname"><span class="pre">element_count</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></em><a class="headerlink" href="#yonata.dantic.MultimodalOpenAIOutput.element_count" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.dantic.MultimodalOpenAIOutput.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#yonata.dantic.MultimodalOpenAIOutput.model_config" title="Link to this definition"></a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="yonata.dantic.MultimodalOpenAIOutput.response">
+<span class="sig-name descname"><span class="pre">response</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></em><a class="headerlink" href="#yonata.dantic.MultimodalOpenAIOutput.response" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-yonata.database">
+<span id="yonata-database-module"></span><h2>yonata.database module<a class="headerlink" href="#module-yonata.database" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="yonata.database.set_client_database">
+<span class="sig-prename descclassname"><span class="pre">yonata.database.</span></span><span class="sig-name descname"><span class="pre">set_client_database</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">postgres_connection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postgres_cursor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/yonata/database.html#set_client_database"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#yonata.database.set_client_database" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-yonata.files">
+<span id="yonata-files-module"></span><h2>yonata.files module<a class="headerlink" href="#module-yonata.files" title="Link to this heading"></a></h2>
+</section>
+<section id="module-yonata.object_storage">
+<span id="yonata-object-storage-module"></span><h2>yonata.object_storage module<a class="headerlink" href="#module-yonata.object_storage" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="yonata.object_storage.set_client_object_storage">
+<span class="sig-prename descclassname"><span class="pre">yonata.object_storage.</span></span><span class="sig-name descname"><span class="pre">set_client_object_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minio_client</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/yonata/object_storage.html#set_client_object_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#yonata.object_storage.set_client_object_storage" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-yonata.preprocessing">
+<span id="yonata-preprocessing-module"></span><h2>yonata.preprocessing module<a class="headerlink" href="#module-yonata.preprocessing" title="Link to this heading"></a></h2>
+</section>
+<section id="module-yonata.utils">
+<span id="yonata-utils-module"></span><h2>yonata.utils module<a class="headerlink" href="#module-yonata.utils" title="Link to this heading"></a></h2>
+</section>
+<section id="module-yonata.variables">
+<span id="yonata-variables-module"></span><h2>yonata.variables module<a class="headerlink" href="#module-yonata.variables" title="Link to this heading"></a></h2>
+</section>
+<section id="module-yonata.vlm">
+<span id="yonata-vlm-module"></span><h2>yonata.vlm module<a class="headerlink" href="#module-yonata.vlm" title="Link to this heading"></a></h2>
+</section>
+<section id="module-yonata">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-yonata" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Erwin Yonata.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

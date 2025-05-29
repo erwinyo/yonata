@@ -1,0 +1,288 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>yonata.benchmark &mdash; Yonata 0.1.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=360bc84d"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Yonata
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Yonata</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">yonata.benchmark</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for yonata.benchmark</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Built-in imports</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+
+<span class="c1"># Third-party imports</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich</span><span class="w"> </span><span class="kn">import</span> <span class="nb">print</span>
+
+<span class="c1"># Local imports</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">yonata.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">yonata.files</span><span class="w"> </span><span class="kn">import</span> <span class="n">_list_files_inside_a_folder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">yonata.constant</span><span class="w"> </span><span class="kn">import</span> <span class="n">IMAGE_EXTENSIONS</span><span class="p">,</span> <span class="n">MINIO_BUCKET</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">yonata.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">_insert_to_postgres</span><span class="p">,</span> <span class="n">_update_to_postgres</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">yonata.object_storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">_upload_image_bytes_to_minio</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">yonata.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">_generate_unique_id</span><span class="p">,</span> <span class="n">_image_ndarray_to_bytes_io</span>
+
+
+<div class="viewcode-block" id="TableName">
+<a class="viewcode-back" href="../../yonata.html#yonata.benchmark.TableName">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TableName</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+    <span class="n">TASK</span> <span class="o">=</span> <span class="s2">&quot;task&quot;</span>
+    <span class="n">PROCESS</span> <span class="o">=</span> <span class="s2">&quot;process&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="TaskType">
+<a class="viewcode-back" href="../../yonata.html#yonata.benchmark.TaskType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TaskType</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+    <span class="n">IMAGE_FOLDER</span> <span class="o">=</span> <span class="s2">&quot;image_folder&quot;</span>
+    <span class="n">VIDEO_FOLDER</span> <span class="o">=</span> <span class="s2">&quot;video_folder&quot;</span>
+    <span class="n">AUDIO_FOLDER</span> <span class="o">=</span> <span class="s2">&quot;audio_folder&quot;</span>
+    <span class="n">TEXT_FOLDER</span> <span class="o">=</span> <span class="s2">&quot;text_folder&quot;</span>
+    <span class="n">MULTIMODAL_OPENAI</span> <span class="o">=</span> <span class="s2">&quot;multimodal_openai&quot;</span>
+    <span class="n">MULTIMODAL_HF</span> <span class="o">=</span> <span class="s2">&quot;multimodal_hf&quot;</span>
+    <span class="n">MULTIMODAL_CUSTOM</span> <span class="o">=</span> <span class="s2">&quot;multimodal_custom&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="TaskStatus">
+<a class="viewcode-back" href="../../yonata.html#yonata.benchmark.TaskStatus">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TaskStatus</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+    <span class="n">OPEN</span> <span class="o">=</span> <span class="s2">&quot;open&quot;</span>
+    <span class="n">ON_PROGRESS</span> <span class="o">=</span> <span class="s2">&quot;on_progress&quot;</span>
+    <span class="n">CLOSED</span> <span class="o">=</span> <span class="s2">&quot;closed&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="ProcessStatus">
+<a class="viewcode-back" href="../../yonata.html#yonata.benchmark.ProcessStatus">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ProcessStatus</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+    <span class="n">SUCCESS</span> <span class="o">=</span> <span class="s2">&quot;success&quot;</span>
+    <span class="n">FAILED</span> <span class="o">=</span> <span class="s2">&quot;failed&quot;</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">__generate_task_id</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">_generate_unique_id</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">__generate_process_id</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">_generate_unique_id</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">__generate_unique_filename</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">_generate_unique_id</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">__store_task_to_database</span><span class="p">(</span><span class="nb">type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">task_id</span> <span class="o">=</span> <span class="n">__generate_task_id</span><span class="p">()</span>
+    <span class="n">_insert_to_postgres</span><span class="p">(</span>
+        <span class="n">table_name</span><span class="o">=</span><span class="n">TableName</span><span class="o">.</span><span class="n">TASK</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;task_id&quot;</span><span class="p">:</span> <span class="n">task_id</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span>
+            <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">TaskStatus</span><span class="o">.</span><span class="n">OPEN</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">task_id</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">__store_benchmark_result_to_database</span><span class="p">(</span>
+    <span class="n">result</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+    <span class="n">task_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="c1"># Input additional mandatory fields</span>
+    <span class="n">process_id</span> <span class="o">=</span> <span class="n">__generate_process_id</span><span class="p">()</span>
+    <span class="n">result</span><span class="p">[</span><span class="s2">&quot;process_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">process_id</span>
+    <span class="n">result</span><span class="p">[</span><span class="s2">&quot;task_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">task_id</span>
+
+    <span class="n">_insert_to_postgres</span><span class="p">(</span><span class="n">table_name</span><span class="o">=</span><span class="n">TableName</span><span class="o">.</span><span class="n">PROCESS</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">result</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">process_id</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">__update_task</span><span class="p">(</span>
+    <span class="n">task_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">completed_processes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">failed_processes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1"># If not listed on input, set to None</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">status</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">status</span>
+    <span class="k">if</span> <span class="n">completed_processes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;completed_processes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">completed_processes</span>
+    <span class="k">if</span> <span class="n">failed_processes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;failed_processes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">failed_processes</span>
+
+    <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">_update_to_postgres</span><span class="p">(</span>
+            <span class="n">table_name</span><span class="o">=</span><span class="n">TableName</span><span class="o">.</span><span class="n">TASK</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">condition</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;task_id&quot;</span><span class="p">:</span> <span class="n">task_id</span><span class="p">},</span>
+        <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_benchmark_from_image_folder</span><span class="p">(</span>
+    <span class="n">instance</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">folder_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">extensions</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">IMAGE_EXTENSIONS</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+    <span class="c1"># Check if the folder exists</span>
+    <span class="n">list_of_files</span> <span class="o">=</span> <span class="n">_list_files_inside_a_folder</span><span class="p">(</span><span class="n">folder_path</span><span class="p">,</span> <span class="n">extensions</span><span class="o">=</span><span class="n">extensions</span><span class="p">)</span>
+
+    <span class="c1"># First time regstering the task</span>
+    <span class="n">task_id</span> <span class="o">=</span> <span class="n">__store_task_to_database</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">TaskType</span><span class="o">.</span><span class="n">IMAGE_FOLDER</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="c1"># Start benchmarking one file at a time</span>
+    <span class="n">success_processes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">failed_processes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">__update_task</span><span class="p">(</span><span class="n">task_id</span><span class="o">=</span><span class="n">task_id</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">TaskStatus</span><span class="o">.</span><span class="n">ON_PROGRESS</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">file_path</span> <span class="ow">in</span> <span class="n">list_of_files</span><span class="p">:</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+        <span class="n">file_ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">filename</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+        <span class="n">image_bytes</span> <span class="o">=</span> <span class="n">_image_ndarray_to_bytes_io</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+        <span class="n">it_success</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Upload image to MinIO using image bytes for faster upload</span>
+            <span class="n">file_path_minio</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">MINIO_BUCKET</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">task_id</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">__generate_unique_filename</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">file_ext</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="n">_upload_image_bytes_to_minio</span><span class="p">(</span><span class="n">minio_path</span><span class="o">=</span><span class="n">file_path_minio</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">image_bytes</span><span class="p">)</span>
+
+            <span class="c1"># Inferencing</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="n">instance_result</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="n">time_taken</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span>
+
+            <span class="c1"># Prepare the output result to store in the database</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;file_path&quot;</span><span class="p">:</span> <span class="n">file_path_minio</span><span class="p">,</span>
+                <span class="s2">&quot;result&quot;</span><span class="p">:</span> <span class="n">instance_result</span><span class="p">,</span>
+                <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">SUCCESS</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                <span class="s2">&quot;time_taken&quot;</span><span class="p">:</span> <span class="n">time_taken</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="n">it_success</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[red]Error processing file:[/red] </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Prepare the output result to store in the database</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;file_path&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="s2">&quot;result&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">ProcessStatus</span><span class="o">.</span><span class="n">FAILED</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                <span class="s2">&quot;time_taken&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="n">it_success</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Store &amp; Update the task success and failed processes</span>
+        <span class="n">process_id</span> <span class="o">=</span> <span class="n">__store_benchmark_result_to_database</span><span class="p">(</span>
+            <span class="n">result</span><span class="o">=</span><span class="n">result</span><span class="p">,</span> <span class="n">task_id</span><span class="o">=</span><span class="n">task_id</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">it_success</span><span class="p">:</span>
+            <span class="n">success_processes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">process_id</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">failed_processes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">process_id</span><span class="p">)</span>
+        <span class="n">__update_task</span><span class="p">(</span>
+            <span class="n">task_id</span><span class="o">=</span><span class="n">task_id</span><span class="p">,</span>
+            <span class="n">completed_processes</span><span class="o">=</span><span class="n">success_processes</span><span class="p">,</span>
+            <span class="n">failed_processes</span><span class="o">=</span><span class="n">failed_processes</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Update task status to closed when all files already processed</span>
+        <span class="n">__update_task</span><span class="p">(</span><span class="n">task_id</span><span class="o">=</span><span class="n">task_id</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">TaskStatus</span><span class="o">.</span><span class="n">CLOSED</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Erwin Yonata.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

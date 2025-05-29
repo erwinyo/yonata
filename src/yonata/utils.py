@@ -27,3 +27,8 @@ def _image_ndarray_to_bytes_io(ndarray_image: np.ndarray) -> bytes:
     Image.fromarray(ndarray_image).save(image_bytes, format="JPEG")
     image_bytes.seek(0)
     return image_bytes
+
+
+def _list_to_string(lst: list) -> str:
+    """Convert a list to a comma-separated string."""
+    return ", ".join(map(str, lst))
