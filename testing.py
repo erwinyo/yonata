@@ -52,8 +52,7 @@ class ObjectDetection:
         return results
 
 
-from yonata import Yonata
-from yonata.core import PostgresConnection, MinioConnection
+from yonata import Yonata, PostgresConnection, MinioConnection
 
 
 def main():
@@ -80,11 +79,8 @@ def main():
         minio_connection=minio_connection,
     )
     print("Audit instance created successfully")
-    # audit.do_benchmark_from_image_folder(instance=detector, folder_path=folder_path)
-
-    # benchmark_from_image_folder(instance=detector, folder_path=folder_path)
+    audit.do_benchmark_from_image_folder(instance=detector, folder_path=folder_path)
 
 
 if __name__ in {"__main__", "__mp_main__"}:
     main()
-    # test_nicegui()

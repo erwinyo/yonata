@@ -1,19 +1,32 @@
 # Built-in imports
 import os
 import time
+import shutil
 from enum import Enum
 
 # Third-party imports
 import cv2
+import json
 from rich import print
+from pydantic import BaseModel
 
 # Local imports
-from yonata.config import logger
+from yonata.config import logger, DESTINATION_FOLDER_NAME
 from yonata.files import _list_files_inside_a_folder
 from yonata.constant import IMAGE_EXTENSIONS, MINIO_BUCKET
 from yonata.database import _insert_to_postgres, _update_to_postgres
 from yonata.object_storage import _upload_image_bytes_to_minio
-from yonata.utils import _generate_unique_id, _image_ndarray_to_bytes_io
+from yonata.preprocessing import _image_ndarray_to_bytes_io
+from yonata.utils import _generate_unique_id, _create_folder
+
+
+class BenchmarkMetadata(BaseModel):
+    task_id: str
+    process_id: str
+    file_path: str
+    result: dict
+    status: str
+    time_taken: float
 
 
 class TableName(str, Enum):
@@ -80,7 +93,7 @@ def __store_benchmark_result_to_database(
     return process_id
 
 
-def __update_task(
+def __update_task_to_database(
     task_id: str,
     status: str = None,
     completed_processes: list[str] = None,
@@ -108,6 +121,74 @@ def _benchmark_from_image_folder(
     folder_path: str,
     extensions: list[str] = IMAGE_EXTENSIONS,
 ) -> None:
+    final_results = {}
+
+    # Check if the folder exists
+    list_of_files = _list_files_inside_a_folder(folder_path, extensions=extensions)
+
+    # Create necessary folders
+    task_id = __generate_task_id()
+    destination_root_path = os.path.join(
+        DESTINATION_FOLDER_NAME, "image_folder", task_id
+    )
+    destination_image_folder_path = os.path.join(destination_root_path, "images")
+    _create_folder(folder_name=destination_image_folder_path)
+
+    # Copy all images to destination folder (for snapshots)
+    for file_path in list_of_files:
+        filename = os.path.basename(file_path)
+        shutil.copy(file_path, os.path.join(destination_image_folder_path, filename))
+
+    final_results["task_id"] = task_id
+    final_results["number_of_files"] = len(list_of_files)
+
+    # Begin benchmarking one file at a time
+    benchmarking_results = []
+    for file_path in list_of_files:
+        temp_result = {}
+        filename = os.path.basename(file_path)
+        file_ext = os.path.splitext(filename)[1]
+        temp_result["file_name"] = filename
+
+        image = cv2.imread(file_path)
+        image_bytes = _image_ndarray_to_bytes_io(image)
+
+        try:
+            # Inferencing
+            start = time.time()
+            instance_result = instance.process(image)
+            end = time.time()
+            time_taken = end - start
+
+            temp_result["results"] = instance_result
+            temp_result["status"] = ProcessStatus.SUCCESS.value
+            temp_result["time_taken"] = time_taken
+
+            logger.success(f"Success processing file: {file_path}")
+
+        except Exception as e:
+            logger.error(f"Error processing file: {file_path}: {e}")
+
+            temp_result["results"] = None
+            temp_result["status"] = ProcessStatus.FAILED.value
+            temp_result["time_taken"] = None
+
+        benchmarking_results.append(temp_result)
+
+    final_results["files"] = benchmarking_results
+
+    # Save the final results to file
+    output_path = os.path.join(destination_root_path, "results.json")
+    with open(output_path, "w") as f:
+        json.dump(final_results, f, indent=4)
+    logger.success(f"Benchmark results saved to: {output_path}")
+
+
+def _benchmark_from_image_folder_to_database(
+    instance: object,
+    folder_path: str,
+    extensions: list[str] = IMAGE_EXTENSIONS,
+) -> None:
 
     # Check if the folder exists
     list_of_files = _list_files_inside_a_folder(folder_path, extensions=extensions)
@@ -118,7 +199,7 @@ def _benchmark_from_image_folder(
     # Start benchmarking one file at a time
     success_processes = []
     failed_processes = []
-    __update_task(task_id=task_id, status=TaskStatus.ON_PROGRESS.value)
+    __update_task_to_database(task_id=task_id, status=TaskStatus.ON_PROGRESS.value)
     for file_path in list_of_files:
         filename = os.path.basename(file_path)
         file_ext = os.path.splitext(filename)[1]
@@ -168,11 +249,11 @@ def _benchmark_from_image_folder(
             success_processes.append(process_id)
         else:
             failed_processes.append(process_id)
-        __update_task(
+        __update_task_to_database(
             task_id=task_id,
             completed_processes=success_processes,
             failed_processes=failed_processes,
         )
     else:
         # Update task status to closed when all files already processed
-        __update_task(task_id=task_id, status=TaskStatus.CLOSED.value)
+        __update_task_to_database(task_id=task_id, status=TaskStatus.CLOSED.value)

@@ -2,6 +2,7 @@
 /dist
 /local/example_folder
 /local/image
+/yonata_output
 
 # Files
 .env

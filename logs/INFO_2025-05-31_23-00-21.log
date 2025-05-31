@@ -1,0 +1,3 @@
+[2025-05-31 23:00:21:7465] [SUCCESS] [/home/user/yonata/src/yonata/core.py:57] [__post_init__] PostgreSQL connection successful
+[2025-05-31 23:00:21:7469] [SUCCESS] [/home/user/yonata/src/yonata/core.py:70] [__post_init__] MinIO connection successful
+[2025-05-31 23:00:21:7474] [SUCCESS] [/home/user/yonata/src/yonata/core.py:83] [__post_init__] Yonata GUI is running...

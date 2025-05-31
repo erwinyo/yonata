@@ -1,0 +1,12 @@
+[2025-06-01 05:48:28:3317] [SUCCESS] [/home/user/yonata/src/yonata/core.py:59] [__post_init__] PostgreSQL connection successful
+[2025-06-01 05:48:28:3323] [SUCCESS] [/home/user/yonata/src/yonata/core.py:72] [__post_init__] MinIO connection successful
+[2025-06-01 05:48:31:2958] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:167] [_benchmark_from_image_folder] [green]Success processing file:[/green] /home/user/yonata/local/image/im1.jpg
+[2025-06-01 05:48:31:3200] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:167] [_benchmark_from_image_folder] [green]Success processing file:[/green] /home/user/yonata/local/image/im2.jpeg
+[2025-06-01 05:48:31:3745] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:167] [_benchmark_from_image_folder] [green]Success processing file:[/green] /home/user/yonata/local/image/im3.jpg
+[2025-06-01 05:48:31:4105] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:167] [_benchmark_from_image_folder] [green]Success processing file:[/green] /home/user/yonata/local/image/im4.jpg
+[2025-06-01 05:48:31:4718] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:167] [_benchmark_from_image_folder] [green]Success processing file:[/green] /home/user/yonata/local/image/im5.jpeg
+[2025-06-01 05:48:31:4893] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:167] [_benchmark_from_image_folder] [green]Success processing file:[/green] /home/user/yonata/local/image/im6.jpg
+[2025-06-01 05:48:31:5215] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:167] [_benchmark_from_image_folder] [green]Success processing file:[/green] /home/user/yonata/local/image/im7.jpg
+[2025-06-01 05:48:31:5481] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:167] [_benchmark_from_image_folder] [green]Success processing file:[/green] /home/user/yonata/local/image/im8.jpg
+[2025-06-01 05:48:31:5885] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:167] [_benchmark_from_image_folder] [green]Success processing file:[/green] /home/user/yonata/local/image/im9.jpeg
+[2025-06-01 05:48:31:5890] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:184] [_benchmark_from_image_folder] [green]Benchmark results saved to:[/green] yonata_output/image_folder/j2Fe59nn/results.json

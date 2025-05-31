@@ -22,10 +22,10 @@ class YourClassName:
     def postprocess(self, data):
         return data
 
-    def process(self, image, raw_result: bool = False):
-
+    def process(self, image, raw_result: bool = False) -> list | dict:
+        results = None
         if raw_result:
-            return embedding
+            return results
 
-        embedding = self.postprocess(embedding)
-        return embedding
+        results = self.postprocess(results)
+        return results

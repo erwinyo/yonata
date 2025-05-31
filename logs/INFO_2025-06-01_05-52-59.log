@@ -1,0 +1,12 @@
+[2025-06-01 05:53:00:0644] [SUCCESS] [/home/user/yonata/src/yonata/core.py:59] [__post_init__] PostgreSQL connection successful
+[2025-06-01 05:53:00:0648] [SUCCESS] [/home/user/yonata/src/yonata/core.py:72] [__post_init__] MinIO connection successful
+[2025-06-01 05:53:03:1095] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:167] [_benchmark_from_image_folder] Success processing file: /home/user/yonata/local/image/im1.jpg
+[2025-06-01 05:53:03:1338] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:167] [_benchmark_from_image_folder] Success processing file: /home/user/yonata/local/image/im2.jpeg
+[2025-06-01 05:53:03:1770] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:167] [_benchmark_from_image_folder] Success processing file: /home/user/yonata/local/image/im3.jpg
+[2025-06-01 05:53:03:2055] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:167] [_benchmark_from_image_folder] Success processing file: /home/user/yonata/local/image/im4.jpg
+[2025-06-01 05:53:03:2496] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:167] [_benchmark_from_image_folder] Success processing file: /home/user/yonata/local/image/im5.jpeg
+[2025-06-01 05:53:03:2607] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:167] [_benchmark_from_image_folder] Success processing file: /home/user/yonata/local/image/im6.jpg
+[2025-06-01 05:53:03:2799] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:167] [_benchmark_from_image_folder] Success processing file: /home/user/yonata/local/image/im7.jpg
+[2025-06-01 05:53:03:3022] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:167] [_benchmark_from_image_folder] Success processing file: /home/user/yonata/local/image/im8.jpg
+[2025-06-01 05:53:03:3312] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:167] [_benchmark_from_image_folder] Success processing file: /home/user/yonata/local/image/im9.jpeg
+[2025-06-01 05:53:03:3316] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:184] [_benchmark_from_image_folder] Benchmark results saved to: yonata_output/image_folder/nndD4QjB/results.json

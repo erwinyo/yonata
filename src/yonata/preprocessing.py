@@ -4,7 +4,9 @@ import io
 import sys
 import math
 import base64
+from io import BytesIO
 from pathlib import Path
+
 
 # Third-party imports
 import cv2
@@ -30,6 +32,13 @@ def _image_numpy_to_bytes(image_numpy):
     if not is_success:
         raise ValueError("Failed to encode the numpy image")
     return buffer.tobytes()
+
+
+def _image_ndarray_to_bytes_io(ndarray_image: np.ndarray) -> bytes:
+    image_bytes = BytesIO()
+    Image.fromarray(ndarray_image).save(image_bytes, format="JPEG")
+    image_bytes.seek(0)
+    return image_bytes
 
 
 def _image_to_bytes(image_input, maximum_bytes_size=MB_8):

@@ -1,12 +1,14 @@
 # Built-in imports
+import os
 import random
 import string
 import urllib.parse
-from io import BytesIO
+
 
 # Third-party imports
 import numpy as np
 from PIL import Image
+
 
 # Local imports
 
@@ -22,13 +24,14 @@ def _decode_url(encoded_url: str) -> str:
     return urllib.parse.unquote(encoded_url)
 
 
-def _image_ndarray_to_bytes_io(ndarray_image: np.ndarray) -> bytes:
-    image_bytes = BytesIO()
-    Image.fromarray(ndarray_image).save(image_bytes, format="JPEG")
-    image_bytes.seek(0)
-    return image_bytes
-
-
 def _list_to_string(lst: list) -> str:
     """Convert a list to a comma-separated string."""
     return ", ".join(map(str, lst))
+
+
+def _is_folder_created(folder_name: str, path: str = ".") -> bool:
+    return os.path.isdir(os.path.join(path, folder_name))
+
+
+def _create_folder(folder_name: str, path: str = ".") -> None:
+    os.makedirs(os.path.join(path, folder_name), exist_ok=True)

@@ -1,0 +1,32 @@
+[2025-05-31 22:59:30:0691] [SUCCESS] [/home/user/yonata/src/yonata/core.py:57] [__post_init__] PostgreSQL connection successful
+[2025-05-31 22:59:30:0695] [SUCCESS] [/home/user/yonata/src/yonata/core.py:70] [__post_init__] MinIO connection successful
+[2025-05-31 23:00:36:6519] [SUCCESS] [/home/user/yonata/src/yonata/database.py:155] [_insert_to_postgres] Data inserted into task successfully.
+[2025-05-31 23:00:36:6540] [SUCCESS] [/home/user/yonata/src/yonata/database.py:177] [_update_to_postgres] Data updated in task successfully.
+[2025-05-31 23:00:36:6858] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:53] [_upload_image_bytes_to_minio] Successfully uploaded qA94DgJG/MiOH6jg5vuzcRiSg.jpg to yonata.
+[2025-05-31 23:00:38:0636] [SUCCESS] [/home/user/yonata/src/yonata/database.py:155] [_insert_to_postgres] Data inserted into process successfully.
+[2025-05-31 23:00:38:0648] [SUCCESS] [/home/user/yonata/src/yonata/database.py:177] [_update_to_postgres] Data updated in task successfully.
+[2025-05-31 23:00:38:0734] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:53] [_upload_image_bytes_to_minio] Successfully uploaded qA94DgJG/TjXS23NjgqY4dbnW.jpeg to yonata.
+[2025-05-31 23:00:38:0851] [SUCCESS] [/home/user/yonata/src/yonata/database.py:155] [_insert_to_postgres] Data inserted into process successfully.
+[2025-05-31 23:00:38:0862] [SUCCESS] [/home/user/yonata/src/yonata/database.py:177] [_update_to_postgres] Data updated in task successfully.
+[2025-05-31 23:00:38:0936] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:53] [_upload_image_bytes_to_minio] Successfully uploaded qA94DgJG/dw7UbibTJNEqCSZm.jpg to yonata.
+[2025-05-31 23:00:38:1299] [SUCCESS] [/home/user/yonata/src/yonata/database.py:155] [_insert_to_postgres] Data inserted into process successfully.
+[2025-05-31 23:00:38:1310] [SUCCESS] [/home/user/yonata/src/yonata/database.py:177] [_update_to_postgres] Data updated in task successfully.
+[2025-05-31 23:00:38:1476] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:53] [_upload_image_bytes_to_minio] Successfully uploaded qA94DgJG/D7Hdkco1mhuqz6RE.jpg to yonata.
+[2025-05-31 23:00:38:1648] [SUCCESS] [/home/user/yonata/src/yonata/database.py:155] [_insert_to_postgres] Data inserted into process successfully.
+[2025-05-31 23:00:38:1658] [SUCCESS] [/home/user/yonata/src/yonata/database.py:177] [_update_to_postgres] Data updated in task successfully.
+[2025-05-31 23:00:38:1722] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:53] [_upload_image_bytes_to_minio] Successfully uploaded qA94DgJG/jzV9GwTo6upZPtJN.jpeg to yonata.
+[2025-05-31 23:00:38:2093] [SUCCESS] [/home/user/yonata/src/yonata/database.py:155] [_insert_to_postgres] Data inserted into process successfully.
+[2025-05-31 23:00:38:2106] [SUCCESS] [/home/user/yonata/src/yonata/database.py:177] [_update_to_postgres] Data updated in task successfully.
+[2025-05-31 23:00:38:2168] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:53] [_upload_image_bytes_to_minio] Successfully uploaded qA94DgJG/jSYNCILkWLeYaEk9.jpg to yonata.
+[2025-05-31 23:00:38:2291] [SUCCESS] [/home/user/yonata/src/yonata/database.py:155] [_insert_to_postgres] Data inserted into process successfully.
+[2025-05-31 23:00:38:2302] [SUCCESS] [/home/user/yonata/src/yonata/database.py:177] [_update_to_postgres] Data updated in task successfully.
+[2025-05-31 23:00:38:2429] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:53] [_upload_image_bytes_to_minio] Successfully uploaded qA94DgJG/y9rNKZVQOPSJSfI6.jpg to yonata.
+[2025-05-31 23:00:38:2594] [SUCCESS] [/home/user/yonata/src/yonata/database.py:155] [_insert_to_postgres] Data inserted into process successfully.
+[2025-05-31 23:00:38:2606] [SUCCESS] [/home/user/yonata/src/yonata/database.py:177] [_update_to_postgres] Data updated in task successfully.
+[2025-05-31 23:00:38:2719] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:53] [_upload_image_bytes_to_minio] Successfully uploaded qA94DgJG/lMkcr32xJKDvPDim.jpg to yonata.
+[2025-05-31 23:00:38:2885] [SUCCESS] [/home/user/yonata/src/yonata/database.py:155] [_insert_to_postgres] Data inserted into process successfully.
+[2025-05-31 23:00:38:2898] [SUCCESS] [/home/user/yonata/src/yonata/database.py:177] [_update_to_postgres] Data updated in task successfully.
+[2025-05-31 23:00:38:3081] [SUCCESS] [/home/user/yonata/src/yonata/object_storage.py:53] [_upload_image_bytes_to_minio] Successfully uploaded qA94DgJG/P04Zl1pxBBYH9Qtv.jpeg to yonata.
+[2025-05-31 23:00:38:3242] [SUCCESS] [/home/user/yonata/src/yonata/database.py:155] [_insert_to_postgres] Data inserted into process successfully.
+[2025-05-31 23:00:38:3255] [SUCCESS] [/home/user/yonata/src/yonata/database.py:177] [_update_to_postgres] Data updated in task successfully.
+[2025-05-31 23:00:38:3266] [SUCCESS] [/home/user/yonata/src/yonata/database.py:177] [_update_to_postgres] Data updated in task successfully.

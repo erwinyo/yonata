@@ -76,4 +76,4 @@ def _run_gui():
         # ]
         # ui.table(columns=columns, rows=rows, row_key="name")
 
-    ui.run(title="Yonata", port=8080, reload=True)
+    ui.run(title="Yet One Neat", port=8080, reload=False)

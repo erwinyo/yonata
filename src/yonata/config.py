@@ -7,6 +7,8 @@ from datetime import datetime
 # Local imports
 from loguru import logger
 
+DESTINATION_FOLDER_NAME = "yonata_output"
+
 # ------------------------------- [LOGGER] -------------------------------
 LEVEL = "INFO"
 

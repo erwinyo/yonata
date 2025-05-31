@@ -1,5 +1,7 @@
 # Built-in imports
 import os
+import time
+import threading
 from typing import List
 from dataclasses import dataclass, field
 
@@ -9,9 +11,10 @@ from minio import Minio
 from pydantic import BaseModel
 
 # Local imports
-from yonata.config import logger
+from yonata.config import logger, DESTINATION_FOLDER_NAME
 from yonata.constant import IMAGE_EXTENSIONS
 from yonata.gui import _run_gui
+from yonata.utils import _create_folder
 from yonata.benchmark import _benchmark_from_image_folder
 from yonata.database import set_client_database
 from yonata.object_storage import set_client_object_storage
@@ -77,8 +80,13 @@ class Yonata:
         )
         set_client_object_storage(minio_client=self._minio_client)
 
+        # Setup output folder
+        _create_folder(folder_name=DESTINATION_FOLDER_NAME)
+
         # Run the GUI application
-        _run_gui()
+        # threading.Thread(target=_run_gui, kwargs={}).start()
+        # logger.success("Yonata GUI is running...")
+        # time.sleep(10)
 
     def do_benchmark_from_image_folder(
         self,
