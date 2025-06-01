@@ -7,6 +7,7 @@ from enum import Enum
 # Third-party imports
 import cv2
 import json
+import supervision as sv
 from rich import print
 from pydantic import BaseModel
 
@@ -116,6 +117,135 @@ def __update_task_to_database(
         )
 
 
+def _benchmark_from_image_folder_from_yolo_ultralytics(
+    instance: object,
+    folder_path: str,
+    extensions: list[str] = IMAGE_EXTENSIONS,
+) -> None:
+    box_annotator = sv.BoxAnnotator()
+    label_annotator = sv.LabelAnnotator(text_position=sv.Position.CENTER)
+
+    final_results = {}
+
+    # Check if the folder exists
+    list_of_files = _list_files_inside_a_folder(folder_path, extensions=extensions)
+
+    # Create necessary folders
+    task_id = __generate_task_id()
+    destination_root_path = os.path.join(
+        DESTINATION_FOLDER_NAME, "image_folder", task_id
+    )
+    destination_raw_image_folder_path = os.path.join(destination_root_path, "images")
+    _create_folder(folder_name=destination_raw_image_folder_path)
+
+    destination_annotated_image_folder_path = os.path.join(
+        destination_root_path, "annotated"
+    )
+    _create_folder(folder_name=destination_annotated_image_folder_path)
+
+    # Copy all images to destination folder (for snapshots)
+    for file_path in list_of_files:
+        filename = os.path.basename(file_path)
+        shutil.copy(
+            file_path, os.path.join(destination_raw_image_folder_path, filename)
+        )
+
+    final_results["task_id"] = task_id
+    final_results["number_of_files"] = len(list_of_files)
+
+    # Begin benchmarking one file at a time
+    benchmarking_results = []
+    for file_path in list_of_files:
+        temp_result = {}
+        filename = os.path.basename(file_path)
+        file_ext = os.path.splitext(filename)[1]
+        temp_result["file_name"] = filename
+
+        image = cv2.imread(file_path)
+        image_bytes = _image_ndarray_to_bytes_io(image)
+
+        try:
+            # Inferencing
+            start = time.time()
+            instance_result = instance.process(image)
+            if isinstance(instance_result, list):
+                # If the result is a list, take the first element
+                instance_result = instance_result[0]
+            instance_result_detections = sv.Detections.from_ultralytics(instance_result)
+            end = time.time()
+            time_taken = end - start
+
+            # Save the annotated image
+            labels = [
+                f"[{class_id}] {class_name}"
+                for class_id, class_name in zip(
+                    instance_result_detections.class_id,
+                    instance_result_detections.data["class_name"],
+                )
+            ]
+            annotated_frame = box_annotator.annotate(
+                scene=image.copy(), detections=instance_result_detections
+            )
+            annotated_frame = label_annotator.annotate(
+                scene=annotated_frame,
+                detections=instance_result_detections,
+                labels=labels,
+            )
+            cv2.imwrite(
+                os.path.join(
+                    destination_annotated_image_folder_path,
+                    filename,
+                ),
+                annotated_frame,
+            )
+
+            # Prepare the output result
+            temp = []
+            for (
+                xyxy,
+                mask,
+                confidence,
+                class_id,
+                tracker_id,
+                data,
+            ) in instance_result_detections:
+                temp.append(
+                    {
+                        "xyxy": xyxy.tolist(),
+                        "mask": mask.tolist() if mask is not None else None,
+                        "confidence": float(confidence),
+                        "class_id": int(class_id),
+                        "tracker_id": (
+                            int(tracker_id) if tracker_id is not None else None
+                        ),
+                        "class_name": data["class_name"],
+                        "data": data,
+                    }
+                )
+            temp_result["results"] = temp
+            temp_result["status"] = ProcessStatus.SUCCESS.value
+            temp_result["time_taken"] = time_taken
+
+            logger.success(f"Success processing file: {file_path}")
+
+        except Exception as e:
+            logger.error(f"Error processing file: {file_path}: {e}")
+
+            temp_result["results"] = None
+            temp_result["status"] = ProcessStatus.FAILED.value
+            temp_result["time_taken"] = None
+
+        benchmarking_results.append(temp_result)
+
+    final_results["files"] = benchmarking_results
+
+    # Save the final results to file
+    output_path = os.path.join(destination_root_path, "results.json")
+    with open(output_path, "w") as f:
+        json.dump(final_results, f, indent=4)
+    logger.success(f"Benchmark results saved to: {output_path}")
+
+
 def _benchmark_from_image_folder(
     instance: object,
     folder_path: str,
@@ -131,13 +261,15 @@ def _benchmark_from_image_folder(
     destination_root_path = os.path.join(
         DESTINATION_FOLDER_NAME, "image_folder", task_id
     )
-    destination_image_folder_path = os.path.join(destination_root_path, "images")
-    _create_folder(folder_name=destination_image_folder_path)
+    destination_raw_image_folder_path = os.path.join(destination_root_path, "images")
+    _create_folder(folder_name=destination_raw_image_folder_path)
 
     # Copy all images to destination folder (for snapshots)
     for file_path in list_of_files:
         filename = os.path.basename(file_path)
-        shutil.copy(file_path, os.path.join(destination_image_folder_path, filename))
+        shutil.copy(
+            file_path, os.path.join(destination_raw_image_folder_path, filename)
+        )
 
     final_results["task_id"] = task_id
     final_results["number_of_files"] = len(list_of_files)

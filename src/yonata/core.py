@@ -9,13 +9,17 @@ from dataclasses import dataclass, field
 import psycopg2
 from minio import Minio
 from pydantic import BaseModel
+from ultralytics import YOLO
 
 # Local imports
 from yonata.config import logger, DESTINATION_FOLDER_NAME
 from yonata.constant import IMAGE_EXTENSIONS
 from yonata.gui import _run_gui
 from yonata.utils import _create_folder
-from yonata.benchmark import _benchmark_from_image_folder
+from yonata.benchmark import (
+    _benchmark_from_image_folder,
+    _benchmark_from_image_folder_from_yolo_ultralytics,
+)
 from yonata.database import set_client_database
 from yonata.object_storage import set_client_object_storage
 
@@ -94,7 +98,7 @@ class Yonata:
         folder_path: str,
         extensions: list[str] = IMAGE_EXTENSIONS,
     ) -> None:
-        """Benchmark the given instance on all images inside a folder.
+        """Benchmark the given instance on all images inside a folder with general output.
 
         Args:
             instance (object): instance of the class of application to benchmark.
@@ -109,5 +113,29 @@ class Yonata:
 
         """
         _benchmark_from_image_folder(
+            instance=instance, folder_path=folder_path, extensions=extensions
+        )
+
+    def do_benchmark_from_image_folder_from_yolo_ultralytics(
+        self,
+        instance: YOLO,
+        folder_path: str,
+        extensions: list[str] = IMAGE_EXTENSIONS,
+    ) -> None:
+        """YOLO ultralytics Benchmark the given instance on all images inside a folder with general output.
+
+        Args:
+            instance (YOLOt): YOLO Ultralytics instance of the class of application to benchmark.
+            folder_path (str): path to the folder containing images to benchmark.
+            extensions (list[str], optional): list of image file extensions to benchmark.
+                Defaults to all allowed extensions. Refer to yonata.constant.IMAGE_EXTENSIONS.
+
+        Notes:
+            If the folder has subfolders,
+            and those subfolders have files that match the extension,
+            then those files are also extracted.
+
+        """
+        _benchmark_from_image_folder_from_yolo_ultralytics(
             instance=instance, folder_path=folder_path, extensions=extensions
         )

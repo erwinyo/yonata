@@ -1,0 +1,12 @@
+[2025-06-01 07:06:49:0385] [SUCCESS] [/home/user/yonata/src/yonata/core.py:63] [__post_init__] PostgreSQL connection successful
+[2025-06-01 07:06:49:0390] [SUCCESS] [/home/user/yonata/src/yonata/core.py:76] [__post_init__] MinIO connection successful
+[2025-06-01 07:06:50:6189] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:229] [_benchmark_from_image_folder_from_yolo_ultralytics] Success processing file: /home/user/yonata/local/image/im1.jpg
+[2025-06-01 07:06:50:6428] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:229] [_benchmark_from_image_folder_from_yolo_ultralytics] Success processing file: /home/user/yonata/local/image/im2.jpeg
+[2025-06-01 07:06:50:6919] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:229] [_benchmark_from_image_folder_from_yolo_ultralytics] Success processing file: /home/user/yonata/local/image/im3.jpg
+[2025-06-01 07:06:50:7349] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:229] [_benchmark_from_image_folder_from_yolo_ultralytics] Success processing file: /home/user/yonata/local/image/im4.jpg
+[2025-06-01 07:06:50:7874] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:229] [_benchmark_from_image_folder_from_yolo_ultralytics] Success processing file: /home/user/yonata/local/image/im5.jpeg
+[2025-06-01 07:06:50:8021] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:229] [_benchmark_from_image_folder_from_yolo_ultralytics] Success processing file: /home/user/yonata/local/image/im6.jpg
+[2025-06-01 07:06:50:8287] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:229] [_benchmark_from_image_folder_from_yolo_ultralytics] Success processing file: /home/user/yonata/local/image/im7.jpg
+[2025-06-01 07:06:50:8627] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:229] [_benchmark_from_image_folder_from_yolo_ultralytics] Success processing file: /home/user/yonata/local/image/im8.jpg
+[2025-06-01 07:06:50:9004] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:229] [_benchmark_from_image_folder_from_yolo_ultralytics] Success processing file: /home/user/yonata/local/image/im9.jpeg
+[2025-06-01 07:06:50:9010] [SUCCESS] [/home/user/yonata/src/yonata/benchmark.py:246] [_benchmark_from_image_folder_from_yolo_ultralytics] Benchmark results saved to: yonata_output/image_folder/Jm3FIctg/results.json
